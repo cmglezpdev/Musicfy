@@ -20,7 +20,7 @@ export const Auth = () => {
         case 'register':
           return <RegisterFrom />;
       default:
-        return <AuthOptions />;
+        return <AuthOptions setSelectedForm={setSelectedForm}/>;
     }
   }
 
