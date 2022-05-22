@@ -1,19 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import firebase from "./utils/Firebase";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+
+
+import { Auth } from "./pages/Auth/Auth";
+
 
 const App = () => {
-  
+
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+
   const auth = getAuth();
   onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser ? "Estamos logeados" : "No estamos logeados");
+      ( !currentUser ) ? setUser(null) : setUser(currentUser);
+      setLoading(false);
   });
 
+  if( loading ) {
+    return null;
+  }
+
+
   return (
-    <div>
-      <h1>App Electron + React + Firebase</h1>
-    </div>
+    <h1>{ user ? <UserLogged /> : <Auth /> }</h1>
   );
 }
+
+const UserLogged = () => {
+
+  const logout = () => {
+      signOut();
+  }
+  
+  return (
+      <div style={{
+        display:"flex",
+        alignItems:"center",
+        justifyContent:"center",
+        flexDirection:"column",
+        height:"100vh"
+      }}>
+        <h1>Usuario Loggeado</h1>
+        <button onClick={logout}>Cerrar Seccion</button>
+      </div>
+  );
+}
+
 
 export default App;
