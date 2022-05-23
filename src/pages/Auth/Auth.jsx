@@ -18,7 +18,7 @@ export const Auth = () => {
         case "login":
           return <LoginForm />;
         case 'register':
-          return <RegisterFrom />;
+          return <RegisterFrom setSelectedForm={setSelectedForm}/>;
       default:
         return <AuthOptions setSelectedForm={setSelectedForm}/>;
     }

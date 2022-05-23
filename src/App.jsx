@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import firebase from "./utils/Firebase";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
-
 import { Auth } from "./pages/Auth/Auth";
-
+import 'semantic-ui-css/semantic.min.css';
 
 const App = () => {
 
@@ -21,10 +20,9 @@ const App = () => {
   if( loading ) {
     return null;
   }
-
-
+  
   return (
-    <h1>{ user ? <UserLogged /> : <Auth /> }</h1>
+    (user) ? <UserLogged /> : <Auth />
   );
 }
 
@@ -35,6 +33,7 @@ const UserLogged = () => {
   }
   
   return (
+
       <div style={{
         display:"flex",
         alignItems:"center",
