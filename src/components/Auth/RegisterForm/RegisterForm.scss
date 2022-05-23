@@ -2,7 +2,7 @@
 
 .register-form {
     margin-top: 50px;
-
+    box-sizing: border-box;
     h1 {
         color: $font-light;
         text-align: center;
@@ -13,7 +13,6 @@
     .ui.form {
         .field {
             .input {
-
                 input {
                     background-color: $background-gray;
                     border: 0;
@@ -54,7 +53,9 @@
 
         .error-text {
             color: $font-light;
-            padding: 15px;
+            display: block;
+            padding-top: 5px;
+            text-align: center;
         }
     }
 

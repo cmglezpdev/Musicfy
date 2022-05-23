@@ -1,17 +1,22 @@
 import React, { useState } from 'react'
 
 import firebase from '../../../utils/Firebase';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
-
 import { useForm } from '../../../Hooks/useForm';
+import { validateEmail } from '../../../utils/Validations';
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
 import { Icon, Form, Input, Button } from 'semantic-ui-react';
 import './RegisterForm.scss';
 
 
+// TODO: ver si puedo usar useReducer para no usar tantos estados
+// TODO: Integrar la validacion de las cuentas al useForm
+
 export const RegisterFrom = ({ setSelectedForm }) => {
   
   const [showPassword, setShowPassword] = useState(false);
+  const [formError, setFormError] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   const [ stateForm, handleInputChange, reset ] = useForm({
       email: "",
@@ -25,8 +30,25 @@ export const RegisterFrom = ({ setSelectedForm }) => {
   }
 
   const onSubmit = () => {
-    console.log("USuario Registrado");
-    console.log(stateForm);
+    setFormError({});
+    let error = {};
+    let formOK = true;
+
+    if( !validateEmail(email) ) {
+      error.email = true;
+      formOK = false;
+    }
+    if( password.length < 6 ) {
+      error.password = true;
+      formOK = false;
+    }
+
+    if( !username ) {
+      error.username = true;
+      formOK = false;
+    }
+    setFormError( error );
+    console.log( formError );
   }
  
   return (
@@ -35,16 +57,24 @@ export const RegisterFrom = ({ setSelectedForm }) => {
       <Form onSubmit={onSubmit}>
         <Form.Field>
           <Input 
-            type='email'
+            type='text'
             name='email'
             value={email}
             placeholder='Correo Electronico'
             icon='mail outline'
             onChange={handleInputChange}
-            // error={}
+            error={formError.email}
           />
+          { formError.email && (
+            <span className='error-text'> 
+              Por favor introduce un correo electronico valido
+            </span> 
+          )}
         </Form.Field>
       
+
+
+
         <Form.Field>
           <Input 
             type={ showPassword ? 'text' : 'password' }
@@ -59,10 +89,18 @@ export const RegisterFrom = ({ setSelectedForm }) => {
               )
             }
             onChange={handleInputChange}
-            // error={}
+            error={formError.password}
           />
+          { formError.password && (
+              <span className='error-text'> 
+                La Contraseña debe tener mas de 6 caracteres
+              </span> 
+          )}
         </Form.Field>
-      
+
+
+
+
         <Form.Field>
           <Input 
             type='text'
@@ -71,10 +109,17 @@ export const RegisterFrom = ({ setSelectedForm }) => {
             placeholder='Como deberíamos llamarte?'
             icon='user circle outline'
             onChange={handleInputChange}
-            // error={}
+            error={formError.username}
           />
+          { formError.username && (
+              <span className='error-text'> 
+                Por favor introduce un nombre de usuario mas grande
+              </span> 
+          )}
         </Form.Field>
       
+
+
         <Button type='submit'>
           Continuar
         </Button>
