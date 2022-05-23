@@ -1,16 +1,26 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import firebase from '../../../utils/Firebase';
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+
+import { useForm } from '../../../Hooks/useForm';
 
 import { Icon, Form, Input, Button } from 'semantic-ui-react';
 import './RegisterForm.scss';
 
 
 export const RegisterFrom = ({ setSelectedForm }) => {
- 
+  
+  const [ stateForm, handleInputChange, reset ] = useForm({
+      email: "",
+      password: "",
+      username: ""
+  });
+  const { email, password, username } = stateForm;
+  
   const onSubmit = () => {
-      console.log("USuario Registrado");
+    console.log("USuario Registrado");
+    console.log(stateForm);
   }
  
   return (
@@ -19,11 +29,12 @@ export const RegisterFrom = ({ setSelectedForm }) => {
       <Form onSubmit={onSubmit}>
         <Form.Field>
           <Input 
-            type='text'
+            type='email'
             name='email'
+            value={email}
             placeholder='Correo Electronico'
             icon='mail outline'
-            // onChange={}
+            onChange={handleInputChange}
             // error={}
           />
         </Form.Field>
@@ -32,9 +43,10 @@ export const RegisterFrom = ({ setSelectedForm }) => {
           <Input 
             type='password'
             name='password'
+            value={password}
             placeholder='Contraseña'
             icon='eye'
-            // onChange={}
+            onChange={handleInputChange}
             // error={}
           />
         </Form.Field>
@@ -43,9 +55,10 @@ export const RegisterFrom = ({ setSelectedForm }) => {
           <Input 
             type='text'
             name='username'
+            value={username}
             placeholder='Como deberíamos llamarte?'
             icon='user circle outline'
-            // onChange={}
+            onChange={handleInputChange}
             // error={}
           />
         </Form.Field>
@@ -68,3 +81,4 @@ export const RegisterFrom = ({ setSelectedForm }) => {
     </div>
   )
 }
+
