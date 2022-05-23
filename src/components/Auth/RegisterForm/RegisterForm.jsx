@@ -11,13 +11,19 @@ import './RegisterForm.scss';
 
 export const RegisterFrom = ({ setSelectedForm }) => {
   
+  const [showPassword, setShowPassword] = useState(false);
+
   const [ stateForm, handleInputChange, reset ] = useForm({
       email: "",
       password: "",
       username: ""
   });
   const { email, password, username } = stateForm;
-  
+
+  const handleShowPassword = () => {
+    setShowPassword( !showPassword );
+  }
+
   const onSubmit = () => {
     console.log("USuario Registrado");
     console.log(stateForm);
@@ -41,11 +47,17 @@ export const RegisterFrom = ({ setSelectedForm }) => {
       
         <Form.Field>
           <Input 
-            type='password'
+            type={ showPassword ? 'text' : 'password' }
             name='password'
             value={password}
             placeholder='Contraseña'
-            icon='eye'
+            icon={
+              showPassword ? (
+                <Icon name='eye slash outline' link onClick={handleShowPassword} />
+              ) : (
+                <Icon name='eye' link onClick={handleShowPassword} />
+              )
+            }
             onChange={handleInputChange}
             // error={}
           />
