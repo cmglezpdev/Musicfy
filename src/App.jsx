@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import firebase from "./utils/Firebase";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
+import { ToastContainer } from 'react-toastify';
 import { Auth } from "./pages/Auth/Auth";
-import 'semantic-ui-css/semantic.min.css';
 
 const App = () => {
 
@@ -20,16 +20,30 @@ const App = () => {
   if( loading ) {
     return null;
   }
-  
+
   return (
-    (user) ? <UserLogged /> : <Auth />
-  );
+    <>      
+      {(user) ? <UserLogged /> : <Auth />}
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss={false}
+        draggable={false}
+        pauseOnHover={false}
+        theme={"colored"}
+      />
+    </>
+  )
 }
 
 const UserLogged = () => {
 
   const logout = () => {
-      signOut();
+      signOut( getAuth() );
   }
   
   return (

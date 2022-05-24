@@ -2,15 +2,17 @@ import React, { useState } from 'react'
 
 import firebase from '../../../utils/Firebase';
 import { useForm } from '../../../Hooks/useForm';
-import { validateEmail } from '../../../utils/Validations';
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { validateEmail, validatePassword, validateUserName } from '../../../utils/Validations';
 
 import { Icon, Form, Input, Button } from 'semantic-ui-react';
 import './RegisterForm.scss';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 
 // TODO: ver si puedo usar useReducer para no usar tantos estados
 // TODO: Integrar la validacion de las cuentas al useForm
+// TODO: Integar todo lo de firebase en un useReducer
 
 export const RegisterFrom = ({ setSelectedForm }) => {
   
@@ -18,7 +20,7 @@ export const RegisterFrom = ({ setSelectedForm }) => {
   const [formError, setFormError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
 
-  const [ stateForm, handleInputChange, reset ] = useForm({
+  const [ stateForm, handleInputChange ] = useForm({
       email: "",
       password: "",
       username: ""
@@ -32,23 +34,32 @@ export const RegisterFrom = ({ setSelectedForm }) => {
   const onSubmit = () => {
     setFormError({});
     let error = {};
-    let formOK = true;
+    let OK = true;
+    
+    if( !validateEmail(email) ) {error.email = true; OK = false;}
+    if( !validatePassword(password) ) {error.password = true; OK = false;}
+    if( !validateUserName(username) ) {error.username = true; OK = false;}
+    
+    setFormError(error);
+    console.log(OK);
 
-    if( !validateEmail(email) ) {
-      error.email = true;
-      formOK = false;
-    }
-    if( password.length < 6 ) {
-      error.password = true;
-      formOK = false;
-    }
+    if( OK ) {
+      setIsLoading( true );
+      
+      console.log("UsuarioCompletado");
 
-    if( !username ) {
-      error.username = true;
-      formOK = false;
-    }
-    setFormError( error );
-    console.log( formError );
+      const auth = getAuth();
+      createUserWithEmailAndPassword( auth, email, password )
+          .then(() => {
+            console.log("Registro");
+          }) .catch(() => {
+            toast.error("Error al crear la cuenta");
+          }).finally(() => {
+            setIsLoading( false );
+            setSelectedForm(null);
+          })
+    }   
+  
   }
  
   return (
@@ -93,7 +104,7 @@ export const RegisterFrom = ({ setSelectedForm }) => {
           />
           { formError.password && (
               <span className='error-text'> 
-                La Contraseña debe tener mas de 6 caracteres
+                La Contraseña debe tener mas de 8 caracteres
               </span> 
           )}
         </Form.Field>
@@ -120,7 +131,7 @@ export const RegisterFrom = ({ setSelectedForm }) => {
       
 
 
-        <Button type='submit'>
+        <Button type='submit' loading={isLoading}>
           Continuar
         </Button>
 
