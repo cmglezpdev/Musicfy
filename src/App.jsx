@@ -13,8 +13,16 @@ const App = () => {
 
   const auth = getAuth();
   onAuthStateChanged(auth, (currentUser) => {
-      ( !currentUser ) ? setUser(null) : setUser(currentUser);
-      setLoading(false);
+
+    console.log(currentUser);
+
+    if( !currentUser?.emailVerified ) {
+        signOut(auth);
+        setUser(null);
+    } else {
+      setUser( currentUser );
+    }
+    setLoading(false);
   });
 
   if( loading ) {

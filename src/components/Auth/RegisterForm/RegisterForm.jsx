@@ -6,7 +6,7 @@ import { validateEmail, validatePassword, validateUserName } from '../../../util
 
 import { Icon, Form, Input, Button } from 'semantic-ui-react';
 import './RegisterForm.scss';
-import { createUserWithEmailAndPassword, getAuth, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, updateProfile, sendVerificationEmail, sendEmailVerification } from 'firebase/auth';
 import { toast } from 'react-toastify';
 
 
@@ -45,17 +45,16 @@ export const RegisterFrom = ({ setSelectedForm }) => {
 
     if( OK ) {
       setIsLoading( true );
-      
-      console.log("UsuarioCompletado");
-
+    
       const auth = getAuth();
       createUserWithEmailAndPassword( auth, email, password )
           .then(() => {
-            console.log("Registro completado");
             console.log(auth.currentUser);
             changeUserName();
+            sendVerificationEmail();
 
-          }) .catch(() => {
+          }) .catch((e) => {
+            console.log(e);
             toast.error("Error al crear la cuenta");
          
           }).finally(() => {
@@ -76,6 +75,16 @@ export const RegisterFrom = ({ setSelectedForm }) => {
     })
   }
  
+  const sendVerificationEmail = () => {
+    const auth = getAuth();
+    sendEmailVerification(auth.currentUser).then(() => {
+        toast.success("Se ha enviado el correo de verificación");
+    }).catch(() => {
+      toast.error("Error al enviar el correo de verificación de cuenta");
+    })
+  }
+
+
   return (
     <div className='register-form'>
       <h1>Empieza a escuchar con una cuenta de Musicfy Gratis</h1>

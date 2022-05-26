@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { AuthOptions } from '../../components/Auth/AuthOptions/AuthOptions';
 import { LoginForm } from '../../components/Auth/LoginForm/LoginForm';
 import { RegisterFrom } from '../../components/Auth/RegisterForm/RegisterForm';
@@ -14,15 +14,21 @@ export const Auth = () => {
   const [selectedForm, setSelectedForm] = useState(null);
 
   const handleForm = () => {
+    console.log(selectedForm);
+
     switch( selectedForm ) {
-        case "login":
-          return <LoginForm />;
+        case 'login':
+          return <LoginForm setSelectedForm={setSelectedForm}/>;
         case 'register':
           return <RegisterFrom setSelectedForm={setSelectedForm}/>;
-      default:
-        return <AuthOptions setSelectedForm={setSelectedForm}/>;
+        default:
+          return <AuthOptions setSelectedForm={setSelectedForm}/>;
     }
   }
+
+  // useEffect(() => {
+  //     handleForm();
+  // }, [selectedForm]);
 
 
   return (
