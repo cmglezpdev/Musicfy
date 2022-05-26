@@ -38,7 +38,10 @@ export const Auth = () => {
           <div className='auth__box-logo'>
             <img src={logoNameWhite} alt="Musicfy" draggable="false"/>
           </div>  
-          { handleForm() }
+          {/* { handleForm() } */}
+          { selectedForm == 'login' && <LoginForm setSelectedForm={setSelectedForm}/> }
+          { selectedForm == 'register' && <RegisterFrom setSelectedForm={setSelectedForm}/> }
+          { selectedForm == null && <AuthOptions setSelectedForm={setSelectedForm}/> }
         </div>
 
     </div>

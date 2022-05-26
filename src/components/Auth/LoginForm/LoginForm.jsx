@@ -49,7 +49,7 @@ export const LoginForm = ({ setSelectedForm }) => {
         <p onClick={() => setSelectedForm(null)}>Volver</p>
         <p>
           No tienes cuenta? 
-          <span onClick={setSelectedForm('register')}>Registrate</span>
+          <span onClick={() => setSelectedForm('register')}>Registrate</span>
         </p>
       </div>
 
