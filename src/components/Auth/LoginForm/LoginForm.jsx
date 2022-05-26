@@ -24,7 +24,7 @@ export const LoginForm = ({ setSelectedForm }) => {
           <Input 
             typle='text'
             name='email'
-            palceholder='Correo Electronico'
+            placeholder='Correo Electronico'
             icon='mail outline'
             // error={}
           />
@@ -34,7 +34,7 @@ export const LoginForm = ({ setSelectedForm }) => {
           <Input 
             typle='password'
             name='password'
-            palceholder='Contraseña'
+            placeholder='Contraseña'
             icon='eye'
             // error={}
           />
@@ -48,7 +48,7 @@ export const LoginForm = ({ setSelectedForm }) => {
       <div className='login-form__options'>
         <p onClick={() => setSelectedForm(null)}>Volver</p>
         <p>
-          No tienes cuenta? 
+          No tienes cuenta? {" "} 
           <span onClick={() => setSelectedForm('register')}>Registrate</span>
         </p>
       </div>

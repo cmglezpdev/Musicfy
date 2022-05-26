@@ -1,5 +1,95 @@
 @import '../../../scss/index.scss';
 
-// .login-form {
+.login-form {
 
-// }
+    margin-top: 50px;
+
+    h1 {
+        color: $font-light;
+        text-align: center;
+        font-size: 35px;
+        padding-bottom: 20px;
+    }
+
+    .ui.form {
+        .field {
+            .input {
+                input {
+                    background-color: $background-gray;
+                    border: 0;
+                    font-size: 16px;
+                    color: $font-light;
+
+                    &:hover,
+                    &:active,
+                    &:focus {
+                        background-color: $background-gray-hover;
+                    }
+                }
+                
+                i {
+                    color: $font-light;
+                    font-size: 19px;
+                }
+
+                &.error {
+                    input {
+                        border-bottom: 1px solid $danger;
+                    }
+                }
+            }
+        }
+        
+        .button {
+            width: 100%;
+            background-color: $primary-color;
+            color: $font-light;
+            text-transform: uppercase;
+            margin-top: 10px;
+            border-radius: 50px;
+            padding: 17px 0;
+            font-size: 14px;
+            letter-spacing: 3px;
+        }
+
+        .error-text {
+            color: $font-light;
+            display: block;
+            padding-top: 5px;
+            text-align: center;
+        }
+    }
+
+    &__options {
+        margin-top: 20px;
+        color: $font-light;
+        text-align: center;
+        font-size: 16px;
+        text-transform: uppercase;
+        font-weight: bold;
+    
+        p {
+            &:first-of-type {
+                margin-bottom: 20px;
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+
+            &:last-of-type {
+                color: $font-gray;
+                
+                span {
+                    color: $font-light;
+                    padding-left: 10px;
+                    text-decoration: underline;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+
+                }
+            }
+        }
+    }
+}
