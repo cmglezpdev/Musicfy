@@ -6,10 +6,13 @@ import { validateEmail, validatePassword } from '../../../utils/Validations';
 import firebase from '../../../utils/Firebase';
 import { useForm } from '../../../Hooks/useForm';
 import 'firebase/auth';
+import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 
 export const LoginForm = ({ setSelectedForm }) => {
   
   const [showPassword, setShowPassword] = useState(false);
+  const [userActive, setUserActive] = useState(true);
+  const [user, setUser] = useState(null);
   const [formError, setFormError] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [ { email, password }, handleInputChange ] = useForm({ 
@@ -40,7 +43,20 @@ export const LoginForm = ({ setSelectedForm }) => {
 
       if( OK ) {
         setIsLoading(true);
-        toast.success( "Login Correcto" );
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+          .then(response => {
+              setUser( response.user )
+              if( !response.user.emailVerified ) {
+                toast.warning("Por favor, valide su correo electronico");
+                setUserActive(false);
+              }
+          }).catch(e => {
+            handleErrors(e.code);
+
+          }).finally(() => {
+            setIsLoading(false);
+          })
       }
     }
 
@@ -89,10 +105,18 @@ export const LoginForm = ({ setSelectedForm }) => {
             )}
         </Form.Field>
 
-        <Button>
+        <Button loading={isLoading}>
           Iniciar Sesión
         </Button>
       </Form>
+
+      { !userActive && (
+        <ButtonResendEmailVerification 
+          user={user}
+          setIsLoading={setIsLoading}
+          setUserActive={setUserActive}
+        />
+      )}
 
       <div className='login-form__options'>
         <p onClick={() => setSelectedForm(null)}>Volver</p>
@@ -104,4 +128,49 @@ export const LoginForm = ({ setSelectedForm }) => {
 
     </div>
   );
+}
+
+const ButtonResendEmailVerification = ({ user, setIsLoading, setUserActive }) => {
+  
+  const resendVerificationEmail = () => {
+
+    sendEmailVerification(user).then(() => {
+      toast.success("Se ha enviado el email de verificacion");
+
+    }).catch(e => {
+      handleErrors(e.code);
+    }).finally(() => {
+      setIsLoading(false);
+      setUserActive(true);
+    })
+  }
+
+  return (
+    <div className='resend-verification-email'>
+      <p>
+        Si no has recibido el email puedes vovler a enviarlo haciendo click {" "}
+        <span onClick={resendVerificationEmail}>aqui</span>
+      </p>
+    </div>
+  )
+}
+
+const handleErrors = (code) => {
+  switch( code ) {
+    case 'auth/wron-password':
+      toast.warning("El usuario o la contrasena son incorrectos");
+      break;
+    case "auth/too-many-requests":
+      toast.warning("Haz enviado demasiadas solicitudes de reenvio de email de confirmacion en muy poco tiempo");
+      break;
+    case "auth/network-request-failed":
+      toast.warning("Error en la conexion a internet!");
+      break;
+    case "auth/user-not-found":
+      toast.warning("EL usuario no existe!");  
+      break;
+    case "auth/wrong-password":
+      toast.warning("El usuario o la contraseña son incorrectos!");  
+      break;
+  }
 }

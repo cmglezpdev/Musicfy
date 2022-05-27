@@ -14,8 +14,6 @@ const App = () => {
   const auth = getAuth();
   onAuthStateChanged(auth, (currentUser) => {
 
-    console.log(currentUser);
-
     if( !currentUser?.emailVerified ) {
         signOut(auth);
         setUser(null);

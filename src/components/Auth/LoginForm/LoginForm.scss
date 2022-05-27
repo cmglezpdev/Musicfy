@@ -92,4 +92,19 @@
             }
         }
     }
+
+    .resend-verification-email {
+        color: $font-light;
+        padding: 20px 20px 0 20px;
+        text-align: center;
+    
+        span {
+            color: $primary-color;
+            font-weight: bold;
+            
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
 }

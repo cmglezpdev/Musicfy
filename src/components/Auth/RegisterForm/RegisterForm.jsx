@@ -41,7 +41,6 @@ export const RegisterFrom = ({ setSelectedForm }) => {
     if( !validateUserName(username) ) {error.username = true; OK = false;}
     
     setFormError(error);
-    console.log(OK);
 
     if( OK ) {
       setIsLoading( true );
@@ -49,12 +48,10 @@ export const RegisterFrom = ({ setSelectedForm }) => {
       const auth = getAuth();
       createUserWithEmailAndPassword( auth, email, password )
           .then(() => {
-            console.log(auth.currentUser);
             changeUserName();
             sendVerificationEmail();
 
           }) .catch((e) => {
-            console.log(e);
             toast.error("Error al crear la cuenta");
          
           }).finally(() => {
