@@ -1,0 +1,18 @@
+@import '../../scss/index.scss';
+
+.ui.grid.logged-layout {
+    background-color: $background-dark-light;
+    min-height: 100vh;
+
+    > .row {
+        &:first-of-type {
+            height: 90vh;
+        }
+        &:last-of-type {
+            height: 10vh;
+        }
+    }
+    .content {
+        
+    }
+}
