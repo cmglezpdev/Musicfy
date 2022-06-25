@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react'
 import { ContentRoutes } from '../../routes/ContentRoutes';
+import { MenuLeft } from '../../components/MenuLeft/MenuLeft';
 
 import './LoggedLayout.scss';
 
@@ -11,7 +12,7 @@ export const LoggedLayout = ({ user }) => {
       <Grid className="logged-layout">
         <Grid.Row>
           <Grid.Column width={3}>
-            <h2>MenuLeft</h2>
+            <MenuLeft user={user} />
           </Grid.Column>
         
           <Grid.Column className="content" width={13}>
