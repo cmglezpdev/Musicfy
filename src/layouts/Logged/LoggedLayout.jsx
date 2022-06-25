@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react'
 import { ContentRoutes } from '../../routes/ContentRoutes';
-import { MenuLeft } from '../../components/MenuLeft/MenuLeft';
+import MenuLeft from '../../components/MenuLeft/MenuLeft';
 
 import './LoggedLayout.scss';
 

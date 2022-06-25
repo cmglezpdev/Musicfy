@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
-import { Link, withRouter } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import './MenuLeft.scss';
 
-export const MenuLeft = ({ user }) => {
+const MenuLeft = ({ user }) => {
+
+  const [activeMenu, setActiveMenu] = useState(window.location.pathname);
+
+  const handleMenu = (e, menu) => {
+    // console.log(menu);
+    setActiveMenu(menu.to);
+  }
+
   return (
       <Menu className='menu-left' vertical>
         <div className="top">
-          <Menu.Item>
+          <Menu.Item as={Link} to="/" name="home" active={activeMenu === '/'} onClick={handleMenu}>
             <Icon name='home' /> Inicio
           </Menu.Item>
-          <Menu.Item>
+          <Menu.Item as={Link} to="/artists" name="artists" active={activeMenu === '/artists'} onClick={handleMenu}>
             <Icon name='music' /> Artistas
           </Menu.Item>
         </div>
@@ -27,3 +35,5 @@ export const MenuLeft = ({ user }) => {
       </Menu>
   )
 }
+
+export default MenuLeft;

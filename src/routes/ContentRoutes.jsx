@@ -12,7 +12,7 @@ export const ContentRoutes = () => {
     return (
         <Routes>
             <Route path="/" exact element={<Home />} />
-            <Route path="/artist" element={<Artists /> } />
+            <Route path="/artists" element={<Artists /> } />
             <Route path="/settings" exact element={<Settings />} />
         </Routes>
     )
