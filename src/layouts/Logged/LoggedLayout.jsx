@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react'
 import { ContentRoutes } from '../../routes/ContentRoutes';
 import MenuLeft from '../../components/MenuLeft/MenuLeft';
+import { TopBar } from '../../components/TopBar/TopBar';
 
 import './LoggedLayout.scss';
 
@@ -16,7 +17,7 @@ export const LoggedLayout = ({ user }) => {
           </Grid.Column>
         
           <Grid.Column className="content" width={13}>
-            <h2>Top Bar</h2>
+            <TopBar user={user} />
               <ContentRoutes />
           </Grid.Column>
         </Grid.Row>

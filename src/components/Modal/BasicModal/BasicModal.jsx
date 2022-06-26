@@ -7,7 +7,7 @@ export const BasicModal = ({ show, setShow, title, children }) => {
 
     return (
     <div>
-        <Modal 
+        <Modal
             open={show}
             onClose={() => setShow(false)}
             className="basic-modal"

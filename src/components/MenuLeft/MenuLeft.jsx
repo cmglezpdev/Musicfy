@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react'
 import { Menu, Icon } from 'semantic-ui-react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { BasicModal } from '../Modal/BasicModal/BasicModal';
 
 import { isUserAdmin } from '../../utils/Api';
 import './MenuLeft.scss';
 
 const MenuLeft = ({ user }) => {
-
-  const [activeMenu, setActiveMenu] = useState(window.location.pathname);
+  
+  const location = useLocation();
+  const [activeMenu, setActiveMenu] = useState(location.pathname);
   const [userAdmin, setUserAdmin] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState("");
   const [contentModal, setContentModal] = useState(null);
+  
+  useEffect(() => {
+    setActiveMenu( location.pathname );
+  },[ location ])
 
   const handleMenu = (e, menu) => {
     setActiveMenu(menu.to);
