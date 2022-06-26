@@ -48,8 +48,6 @@ const MenuLeft = ({ user }) => {
       .then(response => setUserAdmin(response));
   }, [user]);
 
-  console.log(userAdmin);
-
   return (
     <>
       <Menu className='menu-left' vertical>

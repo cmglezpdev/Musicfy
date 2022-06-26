@@ -2,9 +2,8 @@ import React from 'react'
 import { Icon, Image } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
 import firebaseApp from '../../utils/Firebase';
-import 'firebase/auth';
 import userImage from '../../assets/png/user.png';
-
+import { getAuth, signOut } from 'firebase/auth';
 import './TopBar.scss';
 
 export const TopBar = ({ user }) => {
@@ -12,7 +11,9 @@ export const TopBar = ({ user }) => {
     const navigate = useNavigate();
 
     const logout = () => {
-        console.log("cerrar session");
+        const auth = getAuth(firebaseApp);
+        signOut(auth);
+
     }
 
     const goBack = () => {
