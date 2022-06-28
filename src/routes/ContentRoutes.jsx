@@ -8,12 +8,12 @@ import { Artists } from '../pages/Artists/Artists'
 import { Settings } from '../pages/Settings/Settings'
 
 
-export const ContentRoutes = () => {
+export const ContentRoutes = ({ user }) => {
     return (
         <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/artists" element={<Artists /> } />
-            <Route path="/settings" exact element={<Settings />} />
+            <Route path="/settings" exact element={<Settings user={user} />} />
         </Routes>
     )
 }

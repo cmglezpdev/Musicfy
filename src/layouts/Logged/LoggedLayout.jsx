@@ -18,7 +18,7 @@ export const LoggedLayout = ({ user }) => {
         
           <Grid.Column className="content" width={13}>
             <TopBar user={user} />
-              <ContentRoutes />
+              <ContentRoutes user={user} />
           </Grid.Column>
         </Grid.Row>
 
