@@ -44,7 +44,7 @@ The application is development yet.
 ### Continued development
 
 1. When playing a song, show the lyrics of a API, or upload it by own user.
-2. 
+2. Can play music of your computers when the app is offline( it will not has auth )
 
 <!-- Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
 
