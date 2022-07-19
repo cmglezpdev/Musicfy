@@ -49,3 +49,7 @@ const App = () => {
 }
 
 export default App;
+
+
+
+// TODO: Crear context con el user y el setReloadApp

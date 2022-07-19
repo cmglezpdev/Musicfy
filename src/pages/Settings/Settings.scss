@@ -23,16 +23,22 @@
             
             max-width: 130px;
             max-height: 130px;
-            // overflow: hidden;
-            // justify-content: center;
-            // align-items: center;
 
             .ui.image {
-                // width: 100%;
-                // height: 100%;
                 object-fit: cover;
                 border-radius: 50px;
             }
         }
+        
+        .user-name {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+        
+            .ui.button {
+                border-radius: 50px;
+            }
+        }
+    
     }
 }

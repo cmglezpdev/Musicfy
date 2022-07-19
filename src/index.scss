@@ -44,3 +44,36 @@ code {
 
   }
 }
+
+
+
+.ui.form {
+  .field {
+    .input {
+      input {
+        background: $background-gray-light;
+        font-size: 16px;
+        color: $font-light;
+        border: 0;
+
+        &:hover, &:active, &:focus {
+          background-color: $background-gray-light-hover;
+          color: $font-light;
+          border: 0;
+        }
+      }
+    }
+  }
+  .ui.button {
+    width: 100%;
+    margin-top: 20px;
+    background-color: $primary-color;
+    font-weight: bold;
+    font-size: 16px;
+    border-radius: 50px;
+
+    &:hover {
+      background-color: $primary-color-hover;
+    }
+  }
+}
