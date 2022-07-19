@@ -10,6 +10,7 @@ const App = () => {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [,setReloadApp] = useState(false);
 
 
   const auth = getAuth();
@@ -30,7 +31,7 @@ const App = () => {
 
   return (
     <>      
-      {(user) ? <LoggedLayout user={user} /> : <Auth />}
+      {(user) ? <LoggedLayout user={user} setReloadApp={setReloadApp} /> : <Auth />}
       <ToastContainer
         position="top-center"
         autoClose={3000}

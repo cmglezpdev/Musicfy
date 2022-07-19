@@ -9,7 +9,7 @@ import { getAuth, updateProfile } from 'firebase/auth';
 
 import NoAvatar from '../../assets/png/user.png';
 
-export const UploadAvatar = ({ user }) => {
+export const UploadAvatar = ({ user, setReloadApp }) => {
   
     const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
 
@@ -40,6 +40,7 @@ export const UploadAvatar = ({ user }) => {
         const storageRef = ref(storage, `avatar/${user.uid}`);
         getDownloadURL(storageRef).then(url => {
             updateProfile(user, {photoURL: url});
+            setReloadApp(e => !e);
             toast.success('Avatar actualizado correntamente');
         }).catch((error) => {
             toast.error("Error al actualizar el avatar");
