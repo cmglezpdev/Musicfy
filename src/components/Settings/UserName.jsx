@@ -22,7 +22,7 @@ export const UserName = ({ user, setShowModal, setTitleModal, setContentModal, s
     <div className='user-name'>
         <h2>{ user.displayName }</h2>
     
-        <Button onClick={onEdit}>
+        <Button circular onClick={onEdit}>
             Actualizar
         </Button> 
     
@@ -40,7 +40,7 @@ const ChangeDisplayName = ({ user, setShowModal, setReloadApp}) => {
     })
 
     const onSubmit = () => {    
-        if( !formData.displayName || formData.displayName == user.displayName ) {
+        if( !formData.displayName || formData.displayName === user.displayName ) {
             setShowModal(false);
         } else {
             setIsLoading( true );

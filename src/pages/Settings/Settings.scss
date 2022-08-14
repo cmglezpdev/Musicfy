@@ -34,11 +34,18 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-        
-            .ui.button {
-                border-radius: 50px;
-            }
         }
     
+    }
+
+    .user-email, .user-password {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 40px;
+
+        h3 {
+            margin: 0;
+        }
     }
 }

@@ -4,6 +4,7 @@ import { UserName } from '../../components/Settings/UserName';
 import { BasicModal } from '../../components/Modal/BasicModal/BasicModal';
 
 import './Settings.scss';
+import { UserEmail } from '../../components/Settings/UserEmail';
 
 export const Settings = ({ user, setReloadApp }) => {
 
@@ -14,6 +15,7 @@ export const Settings = ({ user, setReloadApp }) => {
   return (
     <div className='settings'>
       <h1>Configuracion</h1>
+
       <div className="avatar-name">
         <UploadAvatar 
           user={user} 
@@ -28,10 +30,15 @@ export const Settings = ({ user, setReloadApp }) => {
         />
       </div>
 
+      <UserEmail 
+        user={user} 
+        setShowModal={setShowModal}
+        setContentModal={setContentModal}
+        setTitleModal={setTitleModal}
+      />
+      
       <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
-        {
-          contentModal
-        }
+        { contentModal }
       </BasicModal>
     </div>
   )
