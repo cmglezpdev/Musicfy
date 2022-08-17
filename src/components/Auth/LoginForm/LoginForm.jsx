@@ -9,7 +9,7 @@ import { useForm } from '../../../Hooks/useForm';
 import { validateEmail, validatePassword } from '../../../utils/Validations';
 
 import './LoginForm.scss';
-import { loginInFirebase } from '../../../actions/authActions';
+import { loginInFirebase, setUserInSotre } from '../../../actions/authActions';
 import { alertError } from '../../../utils/alert-errors';
 
 export const LoginForm = ({ setSelectedForm }) => {
@@ -32,7 +32,7 @@ export const LoginForm = ({ setSelectedForm }) => {
     setShowPassword( !showPassword );
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
       setFormError({});
       let error = {};
       let OK = true;
@@ -41,21 +41,19 @@ export const LoginForm = ({ setSelectedForm }) => {
         error.email = true;        
         OK = false;
       }
-
       if( !validatePassword(password) ) {
           error.password = true;
           OK = false;
       }
-
       setFormError(error);
 
       if( OK ) {
         setIsLoading(true);
-        dispatch(loginInFirebase({email, password}));
-        // console.log(currentUser);
-        // if( currentUser !== undefined && !currentUser.emailVerified ) {
-        //   setUserActive(false);
-        // }
+        await dispatch(loginInFirebase({email, password}));
+
+        if( currentUser !== undefined || !currentUser?.emailVerified ) {
+          setUserActive(false);
+        }      
         setIsLoading(false);
       }
     }
@@ -110,9 +108,8 @@ export const LoginForm = ({ setSelectedForm }) => {
         </Button>
       </Form>
 
-      { ( currentUser !== undefined && !currentUser.emailVerified ) && (
+      { !userActive && (
         <ButtonResendEmailVerification 
-          user={user}
           setIsLoading={setIsLoading}
           setUserActive={setUserActive}
         />
@@ -130,13 +127,16 @@ export const LoginForm = ({ setSelectedForm }) => {
   );
 }
 
-const ButtonResendEmailVerification = ({ user, setIsLoading, setUserActive }) => {
+const ButtonResendEmailVerification = ({ setIsLoading, setUserActive }) => {
   
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.auth);
+
   const resendVerificationEmail = () => {
 
-    sendEmailVerification(user).then(() => {
+    sendEmailVerification(currentUser).then(() => {
       toast.success("Se ha enviado el email de verificacion");
-
+      dispatch( setUserInSotre(currentUser) );
     }).catch(e => {
       alertError(e.code);
     }).finally(() => {
