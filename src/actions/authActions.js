@@ -1,5 +1,5 @@
 import firebaseApp from '../utils/Firebase';
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { types } from '../types';
 import { toast } from 'react-toastify';
 import { alertError } from '../utils/alert-errors';
@@ -11,10 +11,11 @@ export const loginInFirebase = ({ email, password }) => {
             const auth = getAuth(firebaseApp);
             const response = await signInWithEmailAndPassword(auth, email, password);
             
-            dispatch( setUserInSotre( response.user ) );
             if( !response.user.emailVerified ) {
-                toast.warning("Por favor, valide su correo electronico");
+                toast.warning("Por favor, valide su correo electrónico");
                 dispatch(setActiveUser(false));
+            } else {
+                dispatch( setUserInSotre( response.user ) );
             }
 
         } catch (error) {
@@ -25,12 +26,12 @@ export const loginInFirebase = ({ email, password }) => {
 }
 
 export const resendEmailForVerification = () => {
-    return async ( dispatch, getState ) => {
+    return async () => {
 
         try {
-            const currentUser = getAuth().currentUser;
+            const currentUser = getAuth(firebaseApp).currentUser;
             await sendEmailVerification(currentUser);
-            toast.success("Se ha enviado el email de verificacion");
+            toast.success("Se ha enviado el email de verificación");
 
         } catch (error) {
             alertError(error.code);
@@ -54,7 +55,7 @@ export const setActiveUser = ( activeUser ) => ({
 export const registerInFirebase = ({ email, password, username }) => {
     return async (dispatch) => {
         try {
-            const auth = getAuth();
+            const auth = getAuth(firebaseApp);
             await createUserWithEmailAndPassword( auth, email, password )
             
             dispatch(changeUserName(username));
@@ -71,7 +72,7 @@ export const changeUserName = (username) => {
     
     return async () => {
 
-        const auth = getAuth();
+        const auth = getAuth(firebaseApp);
         updateProfile(auth.currentUser, {
           displayName: username
     
@@ -81,6 +82,21 @@ export const changeUserName = (username) => {
         })
     }
 }
+
+
+export const LogoutInFirebase = () => {
+    return async ( dispatch ) => {
+        const auth = getAuth(firebaseApp);
+        await signOut(auth);
+        dispatch( resetAuthStore() );
+    }
+}
+
+
+
+
+
+
 
 
 export const resetAuthStore = () => ({

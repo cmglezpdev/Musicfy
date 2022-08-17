@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
-import { Provider } from 'react-redux';
-import { store } from './store/store';
 
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ToastContainer } from 'react-toastify';
 import { Auth } from "./pages/Auth/Auth";
 import { LoggedLayout } from './layouts/Logged/LoggedLayout';
+import { useDispatch, useSelector } from 'react-redux';
+import { LogoutInFirebase, setUserInSotre } from './actions/authActions';
 
 const App = () => {
 
-  const [user, setUser] = useState(null);
+  const { currentUser:user } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(true);
   const [,setReloadApp] = useState(false);
 
@@ -18,10 +20,9 @@ const App = () => {
   onAuthStateChanged(auth, (currentUser) => {
 
     if( !currentUser?.emailVerified ) {
-        signOut(auth);
-        setUser(null);
+        dispatch(LogoutInFirebase());
     } else {
-      setUser( currentUser );
+      dispatch(setUserInSotre(currentUser));
     }
     setLoading(false);
   });
@@ -31,8 +32,8 @@ const App = () => {
   }
 
   return (
-    <Provider store={store}>      
-      {(user) ? <LoggedLayout user={user} setReloadApp={setReloadApp} /> : <Auth />}
+    <>      
+      {( user ) ? <LoggedLayout user={user} setReloadApp={setReloadApp} /> : <Auth />}
       <ToastContainer
         position="top-center"
         autoClose={3000}
@@ -45,12 +46,8 @@ const App = () => {
         pauseOnHover={false}
         theme={"colored"}
       />
-    </Provider>
+    </>
   )
 }
 
 export default App;
-
-
-
-// TODO: Crear context con el user y el setReloadApp
