@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-// import firebase from "./utils/Firebase";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { Provider } from 'react-redux';
+import { store } from './store/store';
 
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 import { ToastContainer } from 'react-toastify';
 import { Auth } from "./pages/Auth/Auth";
 import { LoggedLayout } from './layouts/Logged/LoggedLayout';
@@ -30,7 +31,7 @@ const App = () => {
   }
 
   return (
-    <>      
+    <Provider store={store}>      
       {(user) ? <LoggedLayout user={user} setReloadApp={setReloadApp} /> : <Auth />}
       <ToastContainer
         position="top-center"
@@ -44,7 +45,7 @@ const App = () => {
         pauseOnHover={false}
         theme={"colored"}
       />
-    </>
+    </Provider>
   )
 }
 

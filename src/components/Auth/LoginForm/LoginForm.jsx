@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
-import './LoginForm.scss';
+import { useDispatch, useSelector } from 'react-redux';
+
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
 import { toast } from 'react-toastify';
-import { validateEmail, validatePassword } from '../../../utils/Validations';
-import firebase from '../../../utils/Firebase';
-import { useForm } from '../../../Hooks/useForm';
-import 'firebase/auth';
 import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
+
+import { useForm } from '../../../Hooks/useForm';
+import { validateEmail, validatePassword } from '../../../utils/Validations';
+
+import './LoginForm.scss';
+import { loginInFirebase } from '../../../actions/authActions';
+import { alertError } from '../../../utils/alert-errors';
 
 export const LoginForm = ({ setSelectedForm }) => {
   
+  const dispatch = useDispatch();
+  const { currentUser } = useSelector(state => state.auth);
+
+
   const [showPassword, setShowPassword] = useState(false);
   const [userActive, setUserActive] = useState(true);
   const [user, setUser] = useState(null);
   const [formError, setFormError] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [ { email, password }, handleInputChange ] = useForm({ 
-      email: "",
-      password : ""
+      email: "cmglezpdev@gmail.com",
+      password : "4ever.togeTher"
   });
 
   const handleShowPassword = () => {
@@ -43,20 +51,12 @@ export const LoginForm = ({ setSelectedForm }) => {
 
       if( OK ) {
         setIsLoading(true);
-        const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-          .then(response => {
-              setUser( response.user )
-              if( !response.user.emailVerified ) {
-                toast.warning("Por favor, valide su correo electronico");
-                setUserActive(false);
-              }
-          }).catch(e => {
-            handleErrors(e.code);
-
-          }).finally(() => {
-            setIsLoading(false);
-          })
+        dispatch(loginInFirebase({email, password}));
+        // console.log(currentUser);
+        // if( currentUser !== undefined && !currentUser.emailVerified ) {
+        //   setUserActive(false);
+        // }
+        setIsLoading(false);
       }
     }
 
@@ -79,7 +79,7 @@ export const LoginForm = ({ setSelectedForm }) => {
           />
           { formError.email && (
               <span className='error-text'> 
-              Por favor introduce un correo electronico valido
+              Por favor introduce un correo electrónico válido
               </span> 
           ) }
         </Form.Field>
@@ -110,7 +110,7 @@ export const LoginForm = ({ setSelectedForm }) => {
         </Button>
       </Form>
 
-      { !userActive && (
+      { ( currentUser !== undefined && !currentUser.emailVerified ) && (
         <ButtonResendEmailVerification 
           user={user}
           setIsLoading={setIsLoading}
@@ -138,7 +138,7 @@ const ButtonResendEmailVerification = ({ user, setIsLoading, setUserActive }) =>
       toast.success("Se ha enviado el email de verificacion");
 
     }).catch(e => {
-      handleErrors(e.code);
+      alertError(e.code);
     }).finally(() => {
       setIsLoading(false);
       setUserActive(true);
@@ -153,24 +153,4 @@ const ButtonResendEmailVerification = ({ user, setIsLoading, setUserActive }) =>
       </p>
     </div>
   )
-}
-
-const handleErrors = (code) => {
-  switch( code ) {
-    case 'auth/wron-password':
-      toast.warning("El usuario o la contrasena son incorrectos");
-      break;
-    case "auth/too-many-requests":
-      toast.warning("Haz enviado demasiadas solicitudes de reenvio de email de confirmacion en muy poco tiempo");
-      break;
-    case "auth/network-request-failed":
-      toast.warning("Error en la conexion a internet!");
-      break;
-    case "auth/user-not-found":
-      toast.warning("EL usuario no existe!");  
-      break;
-    case "auth/wrong-password":
-      toast.warning("El usuario o la contraseña son incorrectos!");  
-      break;
-  }
 }
