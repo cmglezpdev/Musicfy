@@ -2,10 +2,8 @@ import { types } from "../types";
 
 
 // const INITIAL_STATE = {
-//     currentUser: {
-//         email: 'example@example.com',
-//         name: 'Carlos Manuel'
-//     }
+//     currentUser: UserOfFirebase
+//      userActive: boolean;
 // }
 
 
@@ -17,8 +15,17 @@ export const authReducer = ( state = {}, action ) => {
         case types.authSetUserInStore:
             return {
                 ...state,
-                currentUser: action.payload
+                currentUser: action.payload,
             }
+
+        case types.authSetUserActive:
+            return {
+                ...state,
+                userActive: action.payload
+            }
+
+        case types.authResetStore:
+            return {}
 
         default:
             return state;

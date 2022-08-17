@@ -7,8 +7,14 @@ export const types = {
     authLogoutFromFirebase: '[auth] Logout',
 
     authSetUserInStore: '[auth] Set User',
-    aurgRemoveUserFormStore: '[auth] Remove User',
+    authRemoveUserFormStore: '[auth] Remove User',
+
+    authSetUserActive: '[auth] Set User Active',
+    authResetStore: '[auth] Reset Store',
+
     // ui
+
+
 
 
     // Data manager

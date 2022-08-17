@@ -1,26 +1,19 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
-import { toast } from 'react-toastify';
-import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
 
 import { useForm } from '../../../Hooks/useForm';
 import { validateEmail, validatePassword } from '../../../utils/Validations';
-
+import { loginInFirebase, resendEmailForVerification, resetAuthStore } from '../../../actions/authActions';
 import './LoginForm.scss';
-import { loginInFirebase, setUserInSotre } from '../../../actions/authActions';
-import { alertError } from '../../../utils/alert-errors';
 
 export const LoginForm = ({ setSelectedForm }) => {
   
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(state => state.auth);
+  const { userActive } = useSelector(state => state.auth);
 
 
   const [showPassword, setShowPassword] = useState(false);
-  const [userActive, setUserActive] = useState(true);
-  const [user, setUser] = useState(null);
   const [formError, setFormError] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [ { email, password }, handleInputChange ] = useForm({ 
@@ -50,10 +43,6 @@ export const LoginForm = ({ setSelectedForm }) => {
       if( OK ) {
         setIsLoading(true);
         await dispatch(loginInFirebase({email, password}));
-
-        if( currentUser !== undefined || !currentUser?.emailVerified ) {
-          setUserActive(false);
-        }      
         setIsLoading(false);
       }
     }
@@ -108,10 +97,9 @@ export const LoginForm = ({ setSelectedForm }) => {
         </Button>
       </Form>
 
-      { !userActive && (
+      { (userActive !== undefined && !userActive) && (
         <ButtonResendEmailVerification 
           setIsLoading={setIsLoading}
-          setUserActive={setUserActive}
         />
       )}
 
@@ -127,22 +115,15 @@ export const LoginForm = ({ setSelectedForm }) => {
   );
 }
 
-const ButtonResendEmailVerification = ({ setIsLoading, setUserActive }) => {
+const ButtonResendEmailVerification = ({ setIsLoading }) => {
   
   const dispatch = useDispatch();
-  const { currentUser } = useSelector(state => state.auth);
 
-  const resendVerificationEmail = () => {
+  const resendVerificationEmail = async () => {
 
-    sendEmailVerification(currentUser).then(() => {
-      toast.success("Se ha enviado el email de verificacion");
-      dispatch( setUserInSotre(currentUser) );
-    }).catch(e => {
-      alertError(e.code);
-    }).finally(() => {
+      await dispatch(resendEmailForVerification());
+      dispatch( resetAuthStore() );
       setIsLoading(false);
-      setUserActive(true);
-    })
   }
 
   return (
