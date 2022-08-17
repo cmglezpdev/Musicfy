@@ -1,21 +1,20 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { Icon, Form, Input, Button } from 'semantic-ui-react';
 
-import firebase from '../../../utils/Firebase';
 import { useForm } from '../../../Hooks/useForm';
 import { validateEmail, validatePassword, validateUserName } from '../../../utils/Validations';
-
-import { Icon, Form, Input, Button } from 'semantic-ui-react';
+import { registerInFirebase } from '../../../actions/authActions';
 import './RegisterForm.scss';
-import { createUserWithEmailAndPassword, getAuth, updateProfile, sendVerificationEmail, sendEmailVerification } from 'firebase/auth';
-import { toast } from 'react-toastify';
 
 
-// TODO: ver si puedo usar useReducer para no usar tantos estados
-// TODO: Integrar la validacion de las cuentas al useForm
-// TODO: Integar todo lo de firebase en un useReducer
+
+
 
 export const RegisterFrom = ({ setSelectedForm }) => {
   
+  const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -27,11 +26,7 @@ export const RegisterFrom = ({ setSelectedForm }) => {
   });
   const { email, password, username } = stateForm;
 
-  const handleShowPassword = () => {
-    setShowPassword( !showPassword );
-  }
-
-  const onSubmit = () => {
+  const onSubmit = async () => {
     setFormError({});
     let error = {};
     let OK = true;
@@ -44,45 +39,14 @@ export const RegisterFrom = ({ setSelectedForm }) => {
 
     if( OK ) {
       setIsLoading( true );
-    
-      const auth = getAuth();
-      createUserWithEmailAndPassword( auth, email, password )
-          .then(() => {
-            changeUserName();
-            sendVerificationEmail();
-
-          }) .catch((e) => {
-            toast.error("Error al crear la cuenta");
-         
-          }).finally(() => {
-            setIsLoading( false );
-            setSelectedForm(null);
-          })
+      await dispatch(registerInFirebase({email, password, username}));
+      setIsLoading( false );
+      setSelectedForm(null);
     }   
+  }
   
-  }
-
-  const changeUserName = () => {
-    const auth = getAuth();
-    updateProfile(auth.currentUser, {
-      displayName: username
-
-    }).catch(() => {
-      toast.error("Error al asignar el nombre de usuario");
-    })
-  }
- 
-  const sendVerificationEmail = () => {
-    const auth = getAuth();
-    sendEmailVerification(auth.currentUser).then(() => {
-        toast.success("Se ha enviado el correo de verificación");
-    }).catch(() => {
-      toast.error("Error al enviar el correo de verificación de cuenta");
-    })
-  }
-
-
   return (
+    
     <div className='register-form'>
       <h1>Empieza a escuchar con una cuenta de Musicfy Gratis</h1>
       <Form onSubmit={onSubmit}>
@@ -114,9 +78,9 @@ export const RegisterFrom = ({ setSelectedForm }) => {
             placeholder='Contraseña'
             icon={
               showPassword ? (
-                <Icon name='eye slash outline' link onClick={handleShowPassword} />
+                <Icon name='eye slash outline' link onClick={() => setShowPassword( !showPassword )} />
               ) : (
-                <Icon name='eye' link onClick={handleShowPassword} />
+                <Icon name='eye' link onClick={() => setShowPassword( !showPassword )} />
               )
             }
             onChange={handleInputChange}
@@ -158,13 +122,12 @@ export const RegisterFrom = ({ setSelectedForm }) => {
       </Form>
 
       <div className="register-form__options">
-        <p onClick={() => setSelectedForm(null) } >Volver</p>
+        <p onClick={() => setSelectedForm(null) }>Volver</p>
         <p>
           Ya tienes Musicfy? 
           <span onClick={() => setSelectedForm("login") } >Iniciar Sesion</span>
         </p>
       </div>
-
 
     </div>
   )

@@ -1,5 +1,5 @@
 import firebaseApp from '../utils/Firebase';
-import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { types } from '../types';
 import { toast } from 'react-toastify';
 import { alertError } from '../utils/alert-errors';
@@ -28,10 +28,9 @@ export const resendEmailForVerification = () => {
     return async ( dispatch, getState ) => {
 
         try {
-            
-            const currentUser = getState().auth.currentUser;
+            const currentUser = getAuth().currentUser;
             await sendEmailVerification(currentUser);
-           toast.success("Se ha enviado el email de verificacion");
+            toast.success("Se ha enviado el email de verificacion");
 
         } catch (error) {
             alertError(error.code);
@@ -50,6 +49,39 @@ export const setActiveUser = ( activeUser ) => ({
     type: types.authSetUserActive,
     payload: activeUser
 }) 
+
+
+export const registerInFirebase = ({ email, password, username }) => {
+    return async (dispatch) => {
+        try {
+            const auth = getAuth();
+            await createUserWithEmailAndPassword( auth, email, password )
+            
+            dispatch(changeUserName(username));
+            dispatch(resendEmailForVerification());
+
+        } catch (error) {
+            console.log(error);
+            toast.error("Error al crear la cuenta");
+        }
+    }
+}
+
+export const changeUserName = (username) => {
+    
+    return async () => {
+
+        const auth = getAuth();
+        updateProfile(auth.currentUser, {
+          displayName: username
+    
+        }).catch((error) => {
+            console.log(error);
+            toast.error("Error al asignar el nombre de usuario");
+        })
+    }
+}
+
 
 export const resetAuthStore = () => ({
     type: types.authResetStore   

@@ -15,7 +15,8 @@ export const LoginForm = ({ setSelectedForm }) => {
 
   const [showPassword, setShowPassword] = useState(false);
   const [formError, setFormError] = useState({});
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  
   const [ { email, password }, handleInputChange ] = useForm({ 
       email: "cmglezpdev@gmail.com",
       password : "4ever.togeTher"
@@ -120,7 +121,7 @@ const ButtonResendEmailVerification = ({ setIsLoading }) => {
   const dispatch = useDispatch();
 
   const resendVerificationEmail = async () => {
-
+      
       await dispatch(resendEmailForVerification());
       dispatch( resetAuthStore() );
       setIsLoading(false);
