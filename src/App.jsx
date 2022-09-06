@@ -37,7 +37,7 @@ const App = () => {
 
   return (
     <>      
-      {( user ) ? <LoggedLayout user={user} setReloadApp={setReloadApp} /> : <Auth />}
+      {( user ) ? <LoggedLayout setReloadApp={setReloadApp} /> : <Auth />}
       <ToastContainer
         position="top-center"
         autoClose={3000}

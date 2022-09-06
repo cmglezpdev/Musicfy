@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux';
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link, useLocation } from 'react-router-dom'
 import { BasicModal } from '../Modal/BasicModal/BasicModal';
-
 import { isUserAdmin } from '../../utils/Api';
 import './MenuLeft.scss';
 
-const MenuLeft = ({ user }) => {
+const MenuLeft = () => {
+
+  const { currentUser : user } = useSelector(state => state.auth);
   
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
