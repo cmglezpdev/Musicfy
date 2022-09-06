@@ -1,19 +1,23 @@
 import React, { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Button, Form, Icon, Input,  } from 'semantic-ui-react'
 import { useForm } from '../../Hooks/useForm';
-import { alertError } from '../../utils/alert-errors';
-import { reauthentication } from '../../utils/Api';
+import { updateEmail } from '../../actions/personalActions';
+import { ChangeViewModal } from '../../actions/uiActions'
 
-export const UserEmail = ({ user, setShowModal, setTitleModal, setContentModal }) => {
+export const UserEmail = ({ setTitleModal, setContentModal }) => {
    
+    const dispatch = useDispatch();
+    const { currentUser : user } = useSelector(state => state.auth);
+    
     const onEdit = (e) => {
         setTitleModal( "Actualizar Email" );
         setContentModal( 
-            <ChangeEmailForm email={user.email} setShowModal={setShowModal} />
+            <ChangeEmailForm email={user.email} />
         )
 
-        setShowModal(true);
+        dispatch( ChangeViewModal(true) );
     }
    
     return (
@@ -25,13 +29,14 @@ export const UserEmail = ({ user, setShowModal, setTitleModal, setContentModal }
 }
 
 
-const ChangeEmailForm = ({ email, setShowModal }) => {
+const ChangeEmailForm = ({ email }) => {
 
+    const dispatch = useDispatch();
     const [showPassword, setShowPassword] = useState(false);
     const[ inputForm, handleInputChange ] = useForm({ email, password: '' })
     const [isLoading, setIsLoading] = useState(false);
 
-    const onSubmit = (e) => {
+    const onSubmit = async (e) => {
         e.preventDefault();
 
         if( FormData.email === email ) {
@@ -40,16 +45,8 @@ const ChangeEmailForm = ({ email, setShowModal }) => {
         }
         
         setIsLoading(true);
-        reauthentication(inputForm.password)
-            .then(response => {
-                console.log("auth Corrento")
-            })
-            .catch(error => {
-                alertError(error?.code);
-            })
-
+        await dispatch( updateEmail({ email:inputForm.email, password: inputForm.password }) )
         setIsLoading(false);
-        // setShowModal(false);
     }
 
     return (

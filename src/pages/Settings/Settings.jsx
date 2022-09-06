@@ -6,7 +6,7 @@ import { BasicModal } from '../../components/Modal/BasicModal/BasicModal';
 import './Settings.scss';
 import { UserEmail } from '../../components/Settings/UserEmail';
 
-export const Settings = ({ user, setReloadApp }) => {
+export const Settings = () => {
 
   const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState("");
@@ -17,21 +17,15 @@ export const Settings = ({ user, setReloadApp }) => {
       <h1>Configuracion</h1>
 
       <div className="avatar-name">
-        <UploadAvatar 
-          user={user} 
-          setReloadApp={setReloadApp} 
-        />
+        <UploadAvatar />
         <UserName 
-          user={user}
           setShowModal={setShowModal}
           setTitleModal={setTitleModal}
           setContentModal={setContentModal}
-          setReloadApp={setReloadApp} 
         />
       </div>
 
       <UserEmail 
-        user={user} 
         setShowModal={setShowModal}
         setContentModal={setContentModal}
         setTitleModal={setTitleModal}

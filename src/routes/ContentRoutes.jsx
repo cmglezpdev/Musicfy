@@ -8,12 +8,13 @@ import { Artists } from '../pages/Artists/Artists'
 import { Settings } from '../pages/Settings/Settings'
 
 
-export const ContentRoutes = ({ user, setReloadApp }) => {
+export const ContentRoutes = () => {
+
     return (
         <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/artists" element={<Artists /> } />
-            <Route path="/settings" exact element={<Settings user={user} setReloadApp={setReloadApp} />} />
+            <Route path="/settings" exact element={<Settings />} />
         </Routes>
     )
 }

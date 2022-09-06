@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Icon } from 'semantic-ui-react'
 import { Link, useLocation } from 'react-router-dom'
 import { BasicModal } from '../Modal/BasicModal/BasicModal';
-
 import { isUserAdmin } from '../../utils/Api';
 import './MenuLeft.scss';
+import { ChangeViewModal } from '../../actions/uiActions';
 
-const MenuLeft = ({ user }) => {
-  
+const MenuLeft = () => {
+
+  const { currentUser : user } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
   const [userAdmin, setUserAdmin] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const [titleModal, setTitleModal] = useState("");
   const [contentModal, setContentModal] = useState(null);
   
@@ -28,17 +31,17 @@ const MenuLeft = ({ user }) => {
       case "artist":
         setTitleModal("Nuevo artista");
         setContentModal(<h2>Formulario nuevo artista</h2>);
-        setShowModal(true);
+        dispatch( ChangeViewModal(true) )
         break;
       case "song":
         setTitleModal("Nueva cancion");
         setContentModal(<h2>Formulario nueva cancion</h2>);
-        setShowModal(true);
+        dispatch( ChangeViewModal(true) )
         break;
       default:
        setTitleModal(null);
        setContentModal(null);
-       setShowModal(false); 
+       dispatch( ChangeViewModal(false) )
     }
   }
 
@@ -72,7 +75,7 @@ const MenuLeft = ({ user }) => {
           
       </Menu>
 
-      <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
+      <BasicModal title={titleModal}>
         {contentModal}
       </BasicModal>
     </>

@@ -1,21 +1,24 @@
 import React, { useState } from 'react'
 import { Input, Button, Form } from 'semantic-ui-react'
-import { updateProfile } from 'firebase/auth'
-import { toast } from 'react-toastify'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateName } from '../../actions/personalActions'
+import { useForm } from '../../Hooks/useForm'
+import { ChangeViewModal } from '../../actions/uiActions'
 
-export const UserName = ({ user, setShowModal, setTitleModal, setContentModal, setReloadApp }) => {
+export const UserName = ({ setTitleModal, setContentModal }) => {
+
+    const dispatch = useDispatch();
+    const { currentUser: user } = useSelector(state => state.auth);
 
     const onEdit = (e) => {
         setTitleModal( "Actualizar Nombre" );
         setContentModal( 
             <ChangeDisplayName 
-                setShowModal={setShowModal}
-                user={user}
-                setReloadApp={setReloadApp} 
+                user = { user }
             /> 
         )
 
-        setShowModal(true);
+        dispatch( ChangeViewModal(true) )
     }
 
     return (
@@ -32,29 +35,21 @@ export const UserName = ({ user, setShowModal, setTitleModal, setContentModal, s
 
 
 
-const ChangeDisplayName = ({ user, setShowModal, setReloadApp}) => {
+const ChangeDisplayName = ({ user }) => {
     
+    const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
-    const [formData, setformData] = useState({
+    const [formData, handleInputChange] = useForm({
         displayName: user.displayName,
     })
 
-    const onSubmit = () => {    
+    const onSubmit = async () => {    
         if( !formData.displayName || formData.displayName === user.displayName ) {
-            setShowModal(false);
+            dispatch( ChangeViewModal(false) );
         } else {
             setIsLoading( true );
-            updateProfile( user, { displayName: formData.displayName } )
-                .then(() => {
-                    setReloadApp(e => !e);
-                    setIsLoading( false );
-                    toast.success( "Nombre de usuario actualizado correctamente!" );
-                    setShowModal(false);
-                })
-                .catch(error => {
-                    console.error(error);
-                    toast.error( "Error al actualizar el nombre de usuario!" );
-                })
+            await dispatch( updateName(user, formData.displayName) );
+            setIsLoading( false );
         }
     }
     
@@ -64,7 +59,8 @@ const ChangeDisplayName = ({ user, setShowModal, setReloadApp}) => {
             <Form.Field>
                 <Input 
                     defaultValue={user.displayName}
-                    onChange={ e => setformData({displayName: e.target.value}) }
+                    name="displayName"
+                    onChange={ handleInputChange }
                 />
             </Form.Field>
             <Button 

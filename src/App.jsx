@@ -1,29 +1,34 @@
 import React, { useState } from 'react';
-// import firebase from "./utils/Firebase";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { ToastContainer } from 'react-toastify';
 import { Auth } from "./pages/Auth/Auth";
 import { LoggedLayout } from './layouts/Logged/LoggedLayout';
+import { useDispatch, useSelector } from 'react-redux';
+import { LogoutInFirebase, setUserInSotre } from './actions/authActions';
+import { useEffect } from 'react';
 
 const App = () => {
 
-  const [user, setUser] = useState(null);
+  const { currentUser:user } = useSelector(state => state.auth);
+  const dispatch = useDispatch();
+
   const [loading, setLoading] = useState(true);
-  const [,setReloadApp] = useState(false);
 
+  useEffect(() => {
 
-  const auth = getAuth();
-  onAuthStateChanged(auth, (currentUser) => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (currentUser) => {
+      if( !currentUser?.emailVerified ) {
+          dispatch(LogoutInFirebase());
+      } else {
+        dispatch(setUserInSotre(currentUser));
+      }
+      setLoading(false);
+    });
+    // eslint-disable-next-line
+  }, [])
 
-    if( !currentUser?.emailVerified ) {
-        signOut(auth);
-        setUser(null);
-    } else {
-      setUser( currentUser );
-    }
-    setLoading(false);
-  });
 
   if( loading ) {
     return null;
@@ -31,7 +36,7 @@ const App = () => {
 
   return (
     <>      
-      {(user) ? <LoggedLayout user={user} setReloadApp={setReloadApp} /> : <Auth />}
+      {( user ) ? <LoggedLayout /> : <Auth />}
       <ToastContainer
         position="top-center"
         autoClose={3000}
@@ -49,7 +54,3 @@ const App = () => {
 }
 
 export default App;
-
-
-
-// TODO: Crear context con el user y el setReloadApp

@@ -1,30 +1,32 @@
 import React, { useState } from 'react';
-import './LoginForm.scss';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
-import { toast } from 'react-toastify';
-import { validateEmail, validatePassword } from '../../../utils/Validations';
-import firebase from '../../../utils/Firebase';
+
 import { useForm } from '../../../Hooks/useForm';
-import 'firebase/auth';
-import { getAuth, sendEmailVerification, signInWithEmailAndPassword } from 'firebase/auth';
+import { validateEmail, validatePassword } from '../../../utils/Validations';
+import { loginInFirebase, resendEmailForVerification, resetAuthStore } from '../../../actions/authActions';
+import './LoginForm.scss';
 
 export const LoginForm = ({ setSelectedForm }) => {
   
+  const dispatch = useDispatch();
+  const { userActive } = useSelector(state => state.auth);
+
+
   const [showPassword, setShowPassword] = useState(false);
-  const [userActive, setUserActive] = useState(true);
-  const [user, setUser] = useState(null);
   const [formError, setFormError] = useState({});
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
+  
   const [ { email, password }, handleInputChange ] = useForm({ 
-      email: "",
-      password : ""
+      email: "cmglezpdev@gmail.com",
+      password : "4ever.togeTher"
   });
 
   const handleShowPassword = () => {
     setShowPassword( !showPassword );
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
       setFormError({});
       let error = {};
       let OK = true;
@@ -33,30 +35,16 @@ export const LoginForm = ({ setSelectedForm }) => {
         error.email = true;        
         OK = false;
       }
-
       if( !validatePassword(password) ) {
           error.password = true;
           OK = false;
       }
-
       setFormError(error);
 
       if( OK ) {
         setIsLoading(true);
-        const auth = getAuth();
-        signInWithEmailAndPassword(auth, email, password)
-          .then(response => {
-              setUser( response.user )
-              if( !response.user.emailVerified ) {
-                toast.warning("Por favor, valide su correo electronico");
-                setUserActive(false);
-              }
-          }).catch(e => {
-            handleErrors(e.code);
-
-          }).finally(() => {
-            setIsLoading(false);
-          })
+        await dispatch(loginInFirebase({email, password}));
+        setIsLoading(false);
       }
     }
 
@@ -79,7 +67,7 @@ export const LoginForm = ({ setSelectedForm }) => {
           />
           { formError.email && (
               <span className='error-text'> 
-              Por favor introduce un correo electronico valido
+              Por favor introduce un correo electrónico válido
               </span> 
           ) }
         </Form.Field>
@@ -110,11 +98,9 @@ export const LoginForm = ({ setSelectedForm }) => {
         </Button>
       </Form>
 
-      { !userActive && (
+      { (userActive !== undefined && !userActive) && (
         <ButtonResendEmailVerification 
-          user={user}
           setIsLoading={setIsLoading}
-          setUserActive={setUserActive}
         />
       )}
 
@@ -130,19 +116,15 @@ export const LoginForm = ({ setSelectedForm }) => {
   );
 }
 
-const ButtonResendEmailVerification = ({ user, setIsLoading, setUserActive }) => {
+const ButtonResendEmailVerification = ({ setIsLoading }) => {
   
-  const resendVerificationEmail = () => {
+  const dispatch = useDispatch();
 
-    sendEmailVerification(user).then(() => {
-      toast.success("Se ha enviado el email de verificacion");
-
-    }).catch(e => {
-      handleErrors(e.code);
-    }).finally(() => {
+  const resendVerificationEmail = async () => {
+      
+      await dispatch(resendEmailForVerification());
+      dispatch( resetAuthStore() );
       setIsLoading(false);
-      setUserActive(true);
-    })
   }
 
   return (
@@ -153,24 +135,4 @@ const ButtonResendEmailVerification = ({ user, setIsLoading, setUserActive }) =>
       </p>
     </div>
   )
-}
-
-const handleErrors = (code) => {
-  switch( code ) {
-    case 'auth/wron-password':
-      toast.warning("El usuario o la contrasena son incorrectos");
-      break;
-    case "auth/too-many-requests":
-      toast.warning("Haz enviado demasiadas solicitudes de reenvio de email de confirmacion en muy poco tiempo");
-      break;
-    case "auth/network-request-failed":
-      toast.warning("Error en la conexion a internet!");
-      break;
-    case "auth/user-not-found":
-      toast.warning("EL usuario no existe!");  
-      break;
-    case "auth/wrong-password":
-      toast.warning("El usuario o la contraseña son incorrectos!");  
-      break;
-  }
 }

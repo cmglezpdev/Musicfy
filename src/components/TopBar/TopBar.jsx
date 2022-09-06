@@ -1,19 +1,18 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { Icon, Image } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
-import firebaseApp from '../../utils/Firebase';
 import userImage from '../../assets/png/user.png';
-import { getAuth, signOut } from 'firebase/auth';
+import { LogoutInFirebase } from '../../actions/authActions';
 import './TopBar.scss';
 
-export const TopBar = ({ user }) => {
-
+export const TopBar = () => {
+    const { currentUser : user } = useSelector(state => state.auth);
+    const dispatch = useDispatch();
     const navigate = useNavigate();
 
     const logout = () => {
-        const auth = getAuth(firebaseApp);
-        signOut(auth);
-
+        dispatch( LogoutInFirebase() );
     }
 
     const goBack = () => {
