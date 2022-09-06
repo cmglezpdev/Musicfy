@@ -3,9 +3,11 @@ import { Input, Button, Form } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateName } from '../../actions/personalActions'
 import { useForm } from '../../Hooks/useForm'
+import { ChangeViewModal } from '../../actions/uiActions'
 
-export const UserName = ({ setShowModal, setTitleModal, setContentModal, setReloadApp }) => {
+export const UserName = ({ setTitleModal, setContentModal }) => {
 
+    const dispatch = useDispatch();
     const { currentUser: user } = useSelector(state => state.auth);
 
     const onEdit = (e) => {
@@ -13,12 +15,10 @@ export const UserName = ({ setShowModal, setTitleModal, setContentModal, setRelo
         setContentModal( 
             <ChangeDisplayName 
                 user = { user }
-                setShowModal={setShowModal}
-                setReloadApp={setReloadApp} 
             /> 
         )
 
-        setShowModal(true);
+        dispatch( ChangeViewModal(true) )
     }
 
     return (
@@ -35,7 +35,7 @@ export const UserName = ({ setShowModal, setTitleModal, setContentModal, setRelo
 
 
 
-const ChangeDisplayName = ({ user, setShowModal, setReloadApp}) => {
+const ChangeDisplayName = ({ user }) => {
     
     const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +45,7 @@ const ChangeDisplayName = ({ user, setShowModal, setReloadApp}) => {
 
     const onSubmit = async () => {    
         if( !formData.displayName || formData.displayName === user.displayName ) {
-            setShowModal(false);
+            dispatch( ChangeViewModal(false) );
         } else {
             setIsLoading( true );
             await dispatch( updateName(user, formData.displayName) );

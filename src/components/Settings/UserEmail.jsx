@@ -4,10 +4,11 @@ import { toast } from 'react-toastify';
 import { Button, Form, Icon, Input,  } from 'semantic-ui-react'
 import { useForm } from '../../Hooks/useForm';
 import { updateEmail } from '../../actions/personalActions';
+import { ChangeViewModal } from '../../actions/uiActions'
 
-
-export const UserEmail = ({ setShowModal, setTitleModal, setContentModal }) => {
+export const UserEmail = ({ setTitleModal, setContentModal }) => {
    
+    const dispatch = useDispatch();
     const { currentUser : user } = useSelector(state => state.auth);
     
     const onEdit = (e) => {
@@ -16,7 +17,7 @@ export const UserEmail = ({ setShowModal, setTitleModal, setContentModal }) => {
             <ChangeEmailForm email={user.email} />
         )
 
-        setShowModal(true);
+        dispatch( ChangeViewModal(true) );
     }
    
     return (

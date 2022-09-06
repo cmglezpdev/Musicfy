@@ -6,7 +6,7 @@ import {
 } from 'redux'
 
 import thunk from 'redux-thunk'
-import { authReducer } from '../reducers';
+import { authReducer, uiReducer } from '../reducers';
 
 
 const composeEnhancers =
@@ -16,7 +16,8 @@ const composeEnhancers =
 
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    ui: uiReducer,
 })
 
 export const store = createStore(

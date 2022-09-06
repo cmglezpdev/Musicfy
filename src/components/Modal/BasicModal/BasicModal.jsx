@@ -1,15 +1,21 @@
 import React from 'react'
-
+import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Icon } from 'semantic-ui-react'
+import { ChangeViewModal } from '../../../actions/uiActions'
 import './BasicModal.scss'
 
-export const BasicModal = ({ show, setShow, title, children }) => {
+export const BasicModal = ({ title, children }) => {
+
+    const dispatch = useDispatch();
+    const { viewModal } = useSelector(state => state.ui);
+
+    const setShow = ( state ) => dispatch( ChangeViewModal(state))
 
     return (
     <div>
         <Modal
-            open={show}
-            onClose={() => setShow(false)}
+            open={viewModal}
+            onClose={() => setShow(false) }
             className="basic-modal"
             size='tiny'
         >

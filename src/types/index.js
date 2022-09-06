@@ -13,7 +13,8 @@ export const types = {
     authResetStore: '[auth] Reset Store',
 
     // ui
-
+    uiReloadApp: '[ui] Reload App',
+    uiChangeViewModal: '[ui] Change View Modal',
 
 
 

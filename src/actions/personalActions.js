@@ -3,6 +3,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
 import { alertError } from "../utils/alert-errors";
 import { reauthentication } from "../utils/Api";
+import { ChangeViewModal, ReloadApp } from "./uiActions";
 
 export const updateEmail = ({ email, password }) => {
     return async () => {
@@ -17,13 +18,13 @@ export const updateEmail = ({ email, password }) => {
 }
 
 export const updateName = ( user, name ) => {
-    return async () => {
+    return async ( dispatch ) => {
 
         try {
             await updateProfile( user, { displayName: name } )
-            // setReloadApp(e => !e);
+            dispatch( ReloadApp() );
             toast.success( "Nombre de usuario actualizado correctamente!" );
-            // setShowModal(false);
+            dispatch( ChangeViewModal(false) );
             
         } catch (error) {
             console.error(error);
@@ -42,7 +43,7 @@ const uploadAvatarUser = (user, file) => {
 
 export const updateAvatar = ( user, file ) => {
 
-    return async () => {
+    return async ( dispatch ) => {
         try {
             
             await uploadAvatarUser( user, file );
@@ -52,7 +53,7 @@ export const updateAvatar = ( user, file ) => {
             const url = await getDownloadURL(storageRef)
             console.log(url);
             updateProfile(user, {photoURL: url});
-            // setReloadApp(e => !e);
+            dispatch( ReloadApp() );
             toast.success('Avatar actualizado correntamente');
             
         } catch (error) {
@@ -60,3 +61,5 @@ export const updateAvatar = ( user, file ) => {
         }
     }
 }   
+
+// TODO: Sacar todos los toasts, reload app y viewModals(todo lo que no sea la logica) de aqui

@@ -7,7 +7,7 @@ import NoAvatar from '../../assets/png/user.png';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateAvatar } from '../../actions/personalActions';
 
-export const UploadAvatar = ({ setReloadApp }) => {
+export const UploadAvatar = () => {
     
     const {currentUser: user} = useSelector(state => state.auth);
     const dispatch = useDispatch();

@@ -14,12 +14,11 @@ const App = () => {
   const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
-  const [,setReloadApp] = useState(false);
 
   useEffect(() => {
+
     const auth = getAuth();
     onAuthStateChanged(auth, (currentUser) => {
-      console.log("1")
       if( !currentUser?.emailVerified ) {
           dispatch(LogoutInFirebase());
       } else {
@@ -37,7 +36,7 @@ const App = () => {
 
   return (
     <>      
-      {( user ) ? <LoggedLayout setReloadApp={setReloadApp} /> : <Auth />}
+      {( user ) ? <LoggedLayout /> : <Auth />}
       <ToastContainer
         position="top-center"
         autoClose={3000}
