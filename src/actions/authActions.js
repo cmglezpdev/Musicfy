@@ -86,9 +86,12 @@ export const changeUserName = (username) => {
 
 export const LogoutInFirebase = () => {
     return async ( dispatch ) => {
+        console.log("2")
         const auth = getAuth(firebaseApp);
         await signOut(auth);
+        console.log("3")
         dispatch( resetAuthStore() );
+        console.log("4")
     }
 }
 
