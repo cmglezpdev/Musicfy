@@ -1,11 +1,11 @@
 import { toast } from 'react-toastify';
 
-
+// TODO: usar los mensajes que vienen por defecto de firebase
 export const alertError = ( type ) => {
 
     switch( type ) {
         case "auth/too-many-requests":
-            toast.warning("Haz enviado demasiadas solicitudes de reenvio de email de confirmacion en muy poco tiempo");
+            toast.warning("Haz enviado demasiadas solicitudes de reenvio de email de confirmación en muy poco tiempo");
             break;
         
           case "auth/network-request-failed":

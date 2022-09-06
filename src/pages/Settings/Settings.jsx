@@ -5,6 +5,7 @@ import { BasicModal } from '../../components/Modal/BasicModal/BasicModal';
 
 import './Settings.scss';
 import { UserEmail } from '../../components/Settings/UserEmail';
+import { UserPassword } from '../../components/Settings/UserPassword';
 
 export const Settings = () => {
 
@@ -19,18 +20,21 @@ export const Settings = () => {
       <div className="avatar-name">
         <UploadAvatar />
         <UserName 
-          setShowModal={setShowModal}
           setTitleModal={setTitleModal}
           setContentModal={setContentModal}
         />
       </div>
 
       <UserEmail 
-        setShowModal={setShowModal}
         setContentModal={setContentModal}
         setTitleModal={setTitleModal}
       />
       
+      <UserPassword 
+        setContentModal={setContentModal}
+        setTitleModal={setTitleModal}
+      />
+
       <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
         { contentModal }
       </BasicModal>
