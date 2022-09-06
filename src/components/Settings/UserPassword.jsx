@@ -89,6 +89,8 @@ const ChangePassword = ({ user }) => {
                       />
                   }
                 />
+              </Form.Field>
+              <Form.Field>
                 <Input 
                     type={ !showPassword2 ? 'password' : 'text' }
                     placeholder="New Password"
@@ -102,6 +104,8 @@ const ChangePassword = ({ user }) => {
                       />
                   }
                 />
+              </Form.Field>
+              <Form.Field>
                 <Input 
                     type={ !showPassword3 ? 'password' : 'text' }
                     placeholder="Confirm New Password"
@@ -127,3 +131,5 @@ const ChangePassword = ({ user }) => {
 
     )
 }
+
+// TODO: crear componente de Input Password para refactorizar
