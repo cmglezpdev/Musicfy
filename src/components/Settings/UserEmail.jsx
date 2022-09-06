@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Button, Form, Icon, Input,  } from 'semantic-ui-react'
 import { useForm } from '../../Hooks/useForm';
-import { updateEmail } from '../../actions/personalActions';
+import { updateEmailUser } from '../../actions/personalActions';
 import { ChangeViewModal } from '../../actions/uiActions'
 
 export const UserEmail = ({ setTitleModal, setContentModal }) => {
@@ -45,7 +45,7 @@ const ChangeEmailForm = ({ email }) => {
         }
         
         setIsLoading(true);
-        await dispatch( updateEmail({ email:inputForm.email, password: inputForm.password }) )
+        await dispatch( updateEmailUser({ email:inputForm.email, password: inputForm.password }) )
         setIsLoading(false);
     }
 

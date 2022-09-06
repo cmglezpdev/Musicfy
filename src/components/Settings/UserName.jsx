@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Input, Button, Form } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateName } from '../../actions/personalActions'
+import { updateNameUser } from '../../actions/personalActions'
 import { useForm } from '../../Hooks/useForm'
 import { ChangeViewModal } from '../../actions/uiActions'
 
@@ -48,7 +48,7 @@ const ChangeDisplayName = ({ user }) => {
             dispatch( ChangeViewModal(false) );
         } else {
             setIsLoading( true );
-            await dispatch( updateName(user, formData.displayName) );
+            await dispatch( updateNameUser(user, formData.displayName) );
             setIsLoading( false );
         }
     }

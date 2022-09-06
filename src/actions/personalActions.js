@@ -1,23 +1,31 @@
-import { updateProfile } from "firebase/auth";
+import { updateProfile, updateEmail } from "firebase/auth";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { toast } from "react-toastify";
 import { alertError } from "../utils/alert-errors";
 import { reauthentication } from "../utils/Api";
+import { LogoutInFirebase, resendEmailForVerification } from "./authActions";
 import { ChangeViewModal, ReloadApp } from "./uiActions";
 
-export const updateEmail = ({ email, password }) => {
-    return async () => {
+
+export const updateEmailUser = ({ email, password }) => {
+    return async (dispatch, getData) => {
         try {
-            await reauthentication(password)
-            console.log("auth Corrento")
-            
+            const { currentUser: user } = getData().auth;
+            console.log(user)
+            await reauthentication(password);
+            await updateEmail(user, email);
+            toast('Email Actualizado Correctamente');
+
+            dispatch( resendEmailForVerification() ) // Send Email for Verification
+            dispatch( LogoutInFirebase() ) // Logout for the login again
+
         } catch (error) {
             alertError(error?.code);
         }
     }
 }
 
-export const updateName = ( user, name ) => {
+export const updateNameUser = ( user, name ) => {
     return async ( dispatch ) => {
 
         try {

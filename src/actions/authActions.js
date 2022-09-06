@@ -93,12 +93,6 @@ export const LogoutInFirebase = () => {
 }
 
 
-
-
-
-
-
-
 export const resetAuthStore = () => ({
     type: types.authResetStore   
 })
