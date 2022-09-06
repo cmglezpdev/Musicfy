@@ -46,9 +46,7 @@ The application is development yet.
 1. When playing a song, show the lyrics of a API, or upload it by own user.
 2. Can play music of your computers when the app is offline( it will not has auth )
 
-<!-- Use this section to outline areas that you want to continue focusing on in future projects. These could be concepts you're still not completely comfortable with or techniques you found useful that you want to refine and perfect. -->
-
 ## Author
 
-- Website - [Carlos Manuel](https://portfolio-cmglezpdev.vercel.app/)
+- Website - [Carlos Manuel](https://cmglezpdev.vercel.app/)
 - Twitter - [@cmglezpdev](https://www.twitter.com/cmglezpdev)
