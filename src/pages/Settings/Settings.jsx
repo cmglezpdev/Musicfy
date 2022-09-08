@@ -19,21 +19,21 @@ export const Settings = () => {
 
       <div className="avatar-name">
         <UploadAvatar />
-        {/* <UserName 
+        <UserName 
           setTitleModal={setTitleModal}
           setContentModal={setContentModal}
-        /> */}
+        />
       </div>
 
-      {/* <UserEmail 
+      <UserEmail 
         setContentModal={setContentModal}
         setTitleModal={setTitleModal}
-      /> */}
+      />
       
-      {/* <UserPassword 
+      <UserPassword 
         setContentModal={setContentModal}
         setTitleModal={setTitleModal}
-      /> */}
+      />
 
       <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
         { contentModal }
@@ -41,3 +41,6 @@ export const Settings = () => {
     </div>
   )
 }
+
+
+// TODO: error cuando da click en crear una artista se abren otros sliders

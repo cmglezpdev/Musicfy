@@ -29,6 +29,7 @@ export const Home = () => {
   return (
     <>
       <BannerHome />
+      {/* TODO: La lista de artistas no sale desde el primer momento. Tengo que cambiar algo del codigo para que se entere */}
       <div className='home'>
         <BasicSliderItems 
           title="Last Artists"
