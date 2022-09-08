@@ -4,8 +4,9 @@ import { Menu, Icon } from 'semantic-ui-react'
 import { Link, useLocation } from 'react-router-dom'
 import { BasicModal } from '../Modal/BasicModal/BasicModal';
 import { isUserAdmin } from '../../utils/Api';
-import './MenuLeft.scss';
 import { ChangeViewModal } from '../../actions/uiActions';
+import { AddArtistForm } from '../Artists/AddArtistForm';
+import './MenuLeft.scss';
 
 const MenuLeft = () => {
 
@@ -30,11 +31,11 @@ const MenuLeft = () => {
     switch(type) {
       case "artist":
         setTitleModal("Nuevo artista");
-        setContentModal(<h2>Formulario nuevo artista</h2>);
+        setContentModal(<AddArtistForm />);
         dispatch( ChangeViewModal(true) )
         break;
       case "song":
-        setTitleModal("Nueva cancion");
+        setTitleModal("Nueva canción");
         setContentModal(<h2>Formulario nueva cancion</h2>);
         dispatch( ChangeViewModal(true) )
         break;

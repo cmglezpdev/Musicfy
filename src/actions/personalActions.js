@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { alertError } from "../utils/alert-errors";
 import { reauthentication } from "../utils/Api";
 import { LogoutInFirebase, resendEmailForVerification } from "./authActions";
+import { uploadFile } from "./storageActions";
 import { ChangeViewModal, ReloadApp } from "./uiActions";
 
 
@@ -41,20 +42,12 @@ export const updateNameUser = ( user, name ) => {
     }
 }
 
-const uploadAvatarUser = (user, file) => {
-    const storage = getStorage();
-    const storageRef = ref(storage, `avatar/${user.uid}`);
-    
-    return uploadBytes(storageRef, file);
-}
-
-
 export const updateAvatar = ( user, file ) => {
 
     return async ( dispatch ) => {
         try {
             
-            await uploadAvatarUser( user, file );
+            await uploadFile(`avatar/${user.uid}`, file);
 
             const storage = getStorage();
             const storageRef = ref(storage, `avatar/${user.uid}`);

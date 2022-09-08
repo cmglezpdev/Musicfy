@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { UploadAvatar } from '../../components/Settings/UploadAvatar';
 import { UserName } from '../../components/Settings/UserName';
 import { BasicModal } from '../../components/Modal/BasicModal/BasicModal';
-
-import './Settings.scss';
 import { UserEmail } from '../../components/Settings/UserEmail';
 import { UserPassword } from '../../components/Settings/UserPassword';
+
+import './Settings.scss';
 
 export const Settings = () => {
 
@@ -19,21 +19,21 @@ export const Settings = () => {
 
       <div className="avatar-name">
         <UploadAvatar />
-        <UserName 
+        {/* <UserName 
           setTitleModal={setTitleModal}
           setContentModal={setContentModal}
-        />
+        /> */}
       </div>
 
-      <UserEmail 
+      {/* <UserEmail 
         setContentModal={setContentModal}
         setTitleModal={setTitleModal}
-      />
+      /> */}
       
-      <UserPassword 
+      {/* <UserPassword 
         setContentModal={setContentModal}
         setTitleModal={setTitleModal}
-      />
+      /> */}
 
       <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
         { contentModal }
