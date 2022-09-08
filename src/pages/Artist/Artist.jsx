@@ -18,3 +18,5 @@ export const Artist = () => {
       <div>this is the artist</div>
     )
 }
+
+// TODO: Crear un hook para trabajar con firebase 9
