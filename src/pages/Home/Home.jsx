@@ -34,6 +34,8 @@ export const Home = () => {
         <BasicSliderItems 
           title="Last Artists"
           data={artists}
+          folderData="artists"
+          urlName="artist"
         />
       </div>
     </>
