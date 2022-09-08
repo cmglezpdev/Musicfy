@@ -5,6 +5,7 @@
     min-height: 100vh;
 
     > .row {
+
         &:first-of-type {
             height: 90vh;
         }
@@ -12,7 +13,9 @@
             height: 10vh;
         }
     }
-    .content {
-        
-    }
+}
+
+.ui.grid>.row>.column {
+    padding-left: 0  !important;
+    padding-right: 0 !important;
 }
