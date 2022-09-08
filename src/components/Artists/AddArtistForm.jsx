@@ -39,7 +39,10 @@ export const AddArtistForm = () => {
         }
 
         setIsLoading(true);
-        await dispatch(saveArtist( {nameArtist: formData.name, banner} ));
+        const metadata = {
+            contentType: file.type
+        }
+        await dispatch(saveArtist( {nameArtist: formData.name, banner: file, metadata} ));
         reset();
         setIsLoading(false);
     }

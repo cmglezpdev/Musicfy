@@ -1,7 +1,8 @@
-import { getFirestore, collection, getDoc, doc, query, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { BannerHome } from '../../components/BannerHome/BannerHome';
+import { BasicSliderItems } from '../../components/Sliders';
 
 import './Home.scss';
 
@@ -29,7 +30,10 @@ export const Home = () => {
     <>
       <BannerHome />
       <div className='home'>
-        <h2>Massss</h2>
+        <BasicSliderItems 
+          title="Last Artists"
+          data={artists}
+        />
       </div>
     </>
   )

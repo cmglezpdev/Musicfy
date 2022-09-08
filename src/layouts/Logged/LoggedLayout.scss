@@ -8,6 +8,7 @@
 
         &:first-of-type {
             height: 90vh;
+            overflow-y: scroll;
         }
         &:last-of-type {
             height: 10vh;

@@ -6,12 +6,13 @@ import { ChangeViewModal } from "./uiActions";
 import firebaseApp from '../utils/Firebase';
 
 
-export const saveArtist = ({ nameArtist, banner }) => {
+export const saveArtist = ({ nameArtist, banner, metadata }) => {
+    console.log(banner);
     return async ( dispatch ) => {
         try {
             // Save the Banner
             const bannerName = uuidv4();
-            await uploadFile(`artists/${bannerName}`, banner);
+            dispatch(uploadFile(`artists/${bannerName}`, banner, metadata));
             
             // Save the Artist
             const data = {
@@ -31,16 +32,19 @@ export const saveArtist = ({ nameArtist, banner }) => {
 }
 
 
-export const uploadFile = (address, file) => {
-   
-    try {
-        const storage = getStorage(firebaseApp);
-        const storageRef = ref(storage, address);
-        
-        return uploadBytes(storageRef, file);
-        
-    } catch (error) {
-        toast.error("Error in the upload File!");
+export const uploadFile = (address, file, metadata) => {
+
+    return async () => {
+        try {
+            const storage = getStorage(firebaseApp);
+            const storageRef = ref(storage, address);
+            
+
+            return await uploadBytes(storageRef, file, metadata );
+            
+        } catch (error) {
+            toast.error("Error in the upload File!");
+        }
     }
 
 }
