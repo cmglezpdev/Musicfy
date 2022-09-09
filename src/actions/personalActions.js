@@ -1,5 +1,5 @@
 import { updateProfile, updateEmail, updatePassword } from "firebase/auth";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 import { toast } from "react-toastify";
 import { alertError } from "../utils/alert-errors";
 import { reauthentication } from "../utils/Api";
@@ -41,27 +41,6 @@ export const updateNameUser = ( user, name ) => {
         }
     }
 }
-
-export const updateAvatar = ( user, file ) => {
-
-    return async ( dispatch ) => {
-        try {
-            
-            await uploadFile(`avatar/${user.uid}`, file);
-
-            const storage = getStorage();
-            const storageRef = ref(storage, `avatar/${user.uid}`);
-            const url = await getDownloadURL(storageRef)
-            console.log(url);
-            updateProfile(user, {photoURL: url});
-            dispatch( ReloadApp() );
-            toast.success('Avatar actualizado correntamente');
-            
-        } catch (error) {
-            toast.error("Error al actualizar el avatar");
-        }
-    }
-}   
 
 // TODO: Sacar todos los toasts, reload app y viewModals(todo lo que no sea la logica) de aqui
 

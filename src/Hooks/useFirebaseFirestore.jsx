@@ -1,7 +1,7 @@
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import { useCallback, useState } from "react";
 
-export const useFirebaseFirestore = ({ firebaseApp }) => {
+export const useFirebaseFirestore = (firebaseApp) => {
     
     const [db, ] = useState( getFirestore(firebaseApp) );
 
