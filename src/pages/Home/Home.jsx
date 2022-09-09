@@ -1,4 +1,3 @@
-import { getFirestore, collection, query, getDocs } from 'firebase/firestore';
 import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { BannerHome } from '../../components/BannerHome/BannerHome';

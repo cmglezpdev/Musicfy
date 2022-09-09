@@ -18,7 +18,6 @@ export const UploadAvatar = () => {
         const file = acceptedFiles[0];
         setAvatarUrl(URL.createObjectURL(file));
         await dispatch( updateAvatar( user, file ) );
-        
         // eslint-disable-next-line
     }, [])
 

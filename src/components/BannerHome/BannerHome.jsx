@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react'
-import { getDownloadURL, getStorage, ref } from 'firebase/storage'
+import { useFirebaseStorage } from '../../Hooks/useFirebaseStorage';
+import firebaseApp from '../../utils/Firebase';
 
 import './bannerHome.scss';
 
 export const BannerHome = () => {
 
     const [bannerURL, setBannerURL] = useState(null);
+    const { getUrlFile } = useFirebaseStorage( firebaseApp );
 
     useEffect(() => {
-        const db = getStorage();
-        getDownloadURL(ref(db, "others/banner-home.webp"))
-            .then(url => {
-                setBannerURL(url);
-            })
-            .catch(error => {})
-    }, [])
+        getUrlFile("others/banner-home.webp")
+            .then(url => setBannerURL(url));
+    }, [getUrlFile])
 
     if( !bannerURL ) return null;
 

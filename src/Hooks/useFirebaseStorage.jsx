@@ -9,7 +9,6 @@ export const useFirebaseStorage = ({ firebaseApp }) => {
         const urlFile = await getDownloadURL(ref(db, address));
         return urlFile;
     }, [db]);
-    
 
     return {
         getUrlFile
