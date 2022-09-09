@@ -25,7 +25,7 @@ export const Settings = () => {
         />
       </div>
 
-      <UserEmail 
+      {/* <UserEmail 
         setContentModal={setContentModal}
         setTitleModal={setTitleModal}
       />
@@ -37,7 +37,7 @@ export const Settings = () => {
 
       <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
         { contentModal }
-      </BasicModal>
+      </BasicModal> */}
     </div>
   )
 }

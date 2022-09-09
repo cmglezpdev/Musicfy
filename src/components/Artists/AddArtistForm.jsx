@@ -3,14 +3,21 @@ import { useDispatch } from 'react-redux';
 import { Form, Input, Image, Button } from 'semantic-ui-react'
 import { useDropzone } from 'react-dropzone'
 import NoImage from '../../assets/png/no-image.png';
-import './AddArtistForm.scss'
 import { useForm } from '../../Hooks/useForm';
 import { toast } from 'react-toastify';
-import { saveArtist } from '../../actions/storageActions';
+import { useFirebaseStorage } from '../../Hooks/useFirebaseStorage';
+import { useFirebaseFirestore } from '../../Hooks/useFirebaseFirestore';
+
+import { v4 as uuidv4 } from 'uuid';
+import { ChangeViewModal } from '../../actions/uiActions';
+import './AddArtistForm.scss'
+
 
 export const AddArtistForm = () => {
 
     const dispatch = useDispatch();
+    const { uploadFile } = useFirebaseStorage();
+    const { setDocument } = useFirebaseFirestore();
     const [formData, handleInputChange, reset] = useForm({name: ""})
     const [banner, setBanner] = useState(null);
     const [file, setFile] = useState(null);
@@ -42,7 +49,23 @@ export const AddArtistForm = () => {
         const metadata = {
             contentType: file.type
         }
-        await dispatch(saveArtist( {nameArtist: formData.name, banner: file, metadata} ));
+
+        try {
+            // Save the Banner
+            const bannerName = uuidv4();
+            await uploadFile(`artists/${bannerName}`, file, metadata);
+            // Save the Artist
+            await setDocument("artists", {
+                name: formData.name,
+                banner: bannerName 
+            });
+            toast.success("Successfully the artist created")
+        } catch (error) {
+            toast.error("Error in save the artist!");
+        }
+
+        dispatch( ChangeViewModal(false) );
+    
         reset();
         setIsLoading(false);
     }

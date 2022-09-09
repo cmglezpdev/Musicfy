@@ -1,4 +1,4 @@
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
 import { useCallback, useState } from "react";
 
 export const useFirebaseFirestore = (firebaseApp) => {
@@ -19,8 +19,13 @@ export const useFirebaseFirestore = (firebaseApp) => {
         return arr;
       }, [db])
 
+      const setDocument = useCallback(
+        async ( addressCollection, data ) => {
+          await addDoc( collection(db, addressCollection), data);
+        }, [db])
 
     return {
-        getCollectionList
+        getCollectionList,
+        setDocument,
     }
 }
