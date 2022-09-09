@@ -12,6 +12,10 @@ export const useFirebaseProfile = (firebaseApp) => {
         await updateProfile(user, {photoURL: url});
     }, [getUrlFile])
 
+    const updateUserName = useCallback( async (name) => {
+        await updateProfile( user, { displayName: name } );
+    }, [user]);
+
     const updateUserEmail = useCallback( async (email) => {
         await updateEmail(user, email);
     }, [user]);
@@ -25,9 +29,9 @@ export const useFirebaseProfile = (firebaseApp) => {
         await sendEmailVerification(user);
     }, [user]);
 
-
     return {
         updateUserAvatar,
+        updateUserName,
         updateUserEmail,
         reauthentication,
         sendEmailForVerification,
