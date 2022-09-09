@@ -7,3 +7,7 @@ export const ChangeViewModal = ( state ) => ({
     type: types.uiChangeViewModal,
     payload: state
 })
+
+export const resetAuthStore = () => ({
+    type: types.uiResetStore   
+})

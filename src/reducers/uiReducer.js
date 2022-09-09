@@ -22,6 +22,10 @@ export const uiReducer = ( state = INITIAL_STATE, action ) => {
                 viewModal: action.payload
             }            
 
+        case types.uiResetStore:
+            return {
+            }
+
         default:
             return state;
     }

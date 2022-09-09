@@ -15,8 +15,5 @@ export const types = {
     // ui
     uiReloadApp: '[ui] Reload App',
     uiChangeViewModal: '[ui] Change View Modal',
-
-
-
-    // Data manager
+    uiResetStore: '[ui] Reset Store',
 }
