@@ -1,8 +1,7 @@
-import firebaseApp from '../utils/Firebase';
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
-import { types } from '../types';
 import { toast } from 'react-toastify';
-import { alertError } from '../utils/alert-errors';
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { firebaseApp, alertError } from '../utils';
+import { types } from '../types';
 
 
 export const loginInFirebase = ({ email, password }) => {

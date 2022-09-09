@@ -1,10 +1,9 @@
 // import { getDownloadURL, getStorage, ref } from 'firebase/storage';
-import React, { useEffect } from 'react'
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
-import { useFirebaseStorage } from '../../../Hooks/useFirebaseStorage';
-import firebaseApp from '../../../utils/Firebase';
+import { useFirebaseStorage } from '../../../Hooks';
+import { firebaseApp } from '../../../utils';
 
 import './basicSliderItems.scss'
 

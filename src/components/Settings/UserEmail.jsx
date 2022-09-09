@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { Button, Form, Icon, Input,  } from 'semantic-ui-react'
-import { useForm } from '../../Hooks/useForm';
+import { toast } from 'react-toastify';
+import { useForm, useFirebaseProfile } from '../../Hooks';
 import { ChangeViewModal } from '../../actions/uiActions'
-import { useFirebaseProfile } from '../../Hooks/useFirebaseProfile';
-import firebaseApp from '../../utils/Firebase';
 import { LogoutInFirebase } from '../../actions/authActions';
-import { alertError } from '../../utils/alert-errors';
+import { firebaseApp, alertError } from '../../utils';
 
 export const UserEmail = ({ setTitleModal, setContentModal }) => {
    

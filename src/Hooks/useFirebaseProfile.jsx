@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react"
 import { EmailAuthProvider, getAuth, reauthenticateWithCredential, sendEmailVerification, updateEmail, updatePassword, updateProfile } from "firebase/auth";
-import { useFirebaseStorage } from "./useFirebaseStorage";
+import { useFirebaseStorage } from "./";
 
 export const useFirebaseProfile = (firebaseApp) => {
     

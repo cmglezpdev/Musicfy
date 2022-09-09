@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Menu, Icon } from 'semantic-ui-react'
+import { Menu, Icon } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom'
-import { BasicModal } from '../Modal/BasicModal/BasicModal';
-import { isUserAdmin } from '../../utils/Api';
+import { AddArtistForm, BasicModal } from '../';
 import { ChangeViewModal } from '../../actions/uiActions';
-import { AddArtistForm } from '../Artists/AddArtistForm';
+import { isUserAdmin } from '../../utils';
 import './MenuLeft.scss';
 
-const MenuLeft = () => {
+export const MenuLeft = () => {
 
   const { currentUser : user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -82,5 +81,3 @@ const MenuLeft = () => {
     </>
   )
 }
-
-export default MenuLeft;

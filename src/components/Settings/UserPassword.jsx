@@ -1,13 +1,10 @@
 import React, { useState } from 'react'
 import { Input, Button, Form, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useForm } from '../../Hooks/useForm'
-import { ChangeViewModal } from '../../actions/uiActions'
 import { toast } from 'react-toastify'
-import { validatePassword } from '../../utils/Validations'
-import { useFirebaseProfile } from '../../Hooks/useFirebaseProfile'
-import { alertError } from '../../utils/alert-errors'
-import firebaseApp from '../../utils/Firebase';
+import { ChangeViewModal } from '../../actions/uiActions'
+import { validatePassword, alertError, firebaseApp } from '../../utils'
+import { useForm, useFirebaseProfile } from '../../Hooks'
 
 export const UserPassword = ({ setTitleModal, setContentModal }) => {
 

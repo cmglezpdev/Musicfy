@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { useFirebaseStorage } from '../../Hooks/useFirebaseStorage';
-import firebaseApp from '../../utils/Firebase';
+import { useFirebaseStorage } from '../../Hooks';
+import { firebaseApp } from '../../utils';
 
 import './bannerHome.scss';
 

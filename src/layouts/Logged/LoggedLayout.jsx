@@ -1,9 +1,8 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react'
-import { ContentRoutes } from '../../routes/ContentRoutes';
-import MenuLeft from '../../components/MenuLeft/MenuLeft';
-import { TopBar } from '../../components/TopBar/TopBar';
+import { ContentRoutes } from '../../routes';
+import { MenuLeft, TopBar } from '../../components';
 
 import './LoggedLayout.scss';
 

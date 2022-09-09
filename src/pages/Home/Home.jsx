@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react'
-import { useState } from 'react';
-import { BannerHome } from '../../components/BannerHome/BannerHome';
-import { BasicSliderItems } from '../../components/Sliders';
-import { useFirebaseFirestore } from '../../Hooks/useFirebaseFirestore';
-import firebaseApp from '../../utils/Firebase';
+import React, { useEffect, useState } from 'react'
+import { BannerHome, BasicSliderItems } from '../../components';
+import { useFirebaseFirestore } from '../../Hooks';
+import { firebaseApp } from '../../utils';
 
 import './Home.scss';
 
@@ -15,7 +13,6 @@ export const Home = () => {
   useEffect(() => {
     getCollectionList("artists")
     .then(arrayArtist => {
-      console.log(arrayArtist);
       setArtists(arrayArtist)
     });
   }, [getCollectionList])

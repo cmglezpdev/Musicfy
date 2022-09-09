@@ -1,8 +1,5 @@
 import React from 'react'
-
 import { Route, Routes } from 'react-router-dom'
-
-// Pages
 import { Home, Artists, Artist, Settings } from '../pages'
 
 

@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { Input, Button, Form } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useForm } from '../../Hooks/useForm'
-import { ChangeViewModal, ReloadApp } from '../../actions/uiActions'
 import { toast } from 'react-toastify'
-import { useFirebaseProfile } from '../../Hooks/useFirebaseProfile'
-import firebaseApp from '../../utils/Firebase';
+import { useForm, useFirebaseProfile } from '../../Hooks'
+import { ChangeViewModal, ReloadApp } from '../../actions/uiActions'
+import { firebaseApp } from '../../utils';
 
 export const UserName = ({ setTitleModal, setContentModal }) => {
 

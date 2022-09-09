@@ -1,15 +1,12 @@
-import React from 'react'
-import { useState, useCallback } from 'react';
-import { Image } from 'semantic-ui-react'
-import { useDropzone } from 'react-dropzone';
-
-import NoAvatar from '../../assets/png/user.png';
+import React, { useState, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useFirebaseStorage } from '../../Hooks/useFirebaseStorage';
-import firebaseApp from '../../utils/Firebase';
-import { ReloadApp } from '../../actions/uiActions';
+import { Image } from 'semantic-ui-react'
 import { toast } from 'react-toastify';
-import { useFirebaseProfile } from '../../Hooks/useFirebaseProfile';
+import { useDropzone } from 'react-dropzone';
+import { useFirebaseStorage, useFirebaseProfile } from '../../Hooks';
+import { firebaseApp } from '../../utils';
+import { ReloadApp } from '../../actions/uiActions';
+import NoAvatar from '../../assets/png/user.png';
 
 export const UploadAvatar = () => {
     

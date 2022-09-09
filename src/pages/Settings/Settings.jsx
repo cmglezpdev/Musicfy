@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
-import { UploadAvatar } from '../../components/Settings/UploadAvatar';
-import { UserName } from '../../components/Settings/UserName';
-import { BasicModal } from '../../components/Modal/BasicModal/BasicModal';
-import { UserEmail } from '../../components/Settings/UserEmail';
-import { UserPassword } from '../../components/Settings/UserPassword';
+import { UploadAvatar, BasicModal, UserName, UserPassword, UserEmail } from '../../components';
 
 import './Settings.scss';
 
@@ -25,7 +21,7 @@ export const Settings = () => {
         />
       </div>
 
-      {/* <UserEmail 
+      <UserEmail 
         setContentModal={setContentModal}
         setTitleModal={setTitleModal}
       />
@@ -37,7 +33,7 @@ export const Settings = () => {
 
       <BasicModal show={showModal} setShow={setShowModal} title={titleModal}>
         { contentModal }
-      </BasicModal> */}
+      </BasicModal>
     </div>
   )
 }

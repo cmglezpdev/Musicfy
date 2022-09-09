@@ -2,16 +2,13 @@ import React, { useState,useCallback } from 'react'
 import { useDispatch } from 'react-redux';
 import { Form, Input, Image, Button } from 'semantic-ui-react'
 import { useDropzone } from 'react-dropzone'
-import NoImage from '../../assets/png/no-image.png';
-import { useForm } from '../../Hooks/useForm';
 import { toast } from 'react-toastify';
-import { useFirebaseStorage } from '../../Hooks/useFirebaseStorage';
-import { useFirebaseFirestore } from '../../Hooks/useFirebaseFirestore';
-
 import { v4 as uuidv4 } from 'uuid';
 import { ChangeViewModal } from '../../actions/uiActions';
-import './AddArtistForm.scss'
+import { useForm, useFirebaseStorage, useFirebaseFirestore } from '../../Hooks';
 
+import NoImage from '../../assets/png/no-image.png';
+import './AddArtistForm.scss'
 
 export const AddArtistForm = () => {
 
