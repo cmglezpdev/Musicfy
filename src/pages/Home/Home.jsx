@@ -3,33 +3,27 @@ import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { BannerHome } from '../../components/BannerHome/BannerHome';
 import { BasicSliderItems } from '../../components/Sliders';
+import { useFirebaseFirestore } from '../../Hooks/useFirebaseFirestore';
+import firebaseApp from '../../utils/Firebase';
 
 import './Home.scss';
 
 export const Home = () => {
 
   const [artists, setArtists] = useState([]);
+  const { getCollectionList } = useFirebaseFirestore(firebaseApp);
 
   useEffect(() => {
-
-    const arrayArtists = [];
-    const db = getFirestore();
-    const q = query(collection(db, "artists"));
-    getDocs(q).then(response => {
-      response?.docs?.forEach(artist => {
-        const data = artist.data();
-        data.id = artist.id;
-        arrayArtists.push(data);
-      })  
-    })
-
-    setArtists(arrayArtists);
-  }, [])
+    getCollectionList("artists")
+    .then(arrayArtist => {
+      console.log(arrayArtist);
+      setArtists(arrayArtist)
+    });
+  }, [getCollectionList])
 
   return (
     <>
       <BannerHome />
-      {/* TODO: La lista de artistas no sale desde el primer momento. Tengo que cambiar algo del codigo para que se entere */}
       <div className='home'>
         <BasicSliderItems 
           title="Last Artists"
