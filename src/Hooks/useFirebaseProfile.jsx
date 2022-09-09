@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react"
-import { EmailAuthProvider, getAuth, reauthenticateWithCredential, sendEmailVerification, updateEmail, updateProfile } from "firebase/auth";
+import { EmailAuthProvider, getAuth, reauthenticateWithCredential, sendEmailVerification, updateEmail, updatePassword, updateProfile } from "firebase/auth";
 import { useFirebaseStorage } from "./useFirebaseStorage";
 
 export const useFirebaseProfile = (firebaseApp) => {
@@ -20,6 +20,10 @@ export const useFirebaseProfile = (firebaseApp) => {
         await updateEmail(user, email);
     }, [user]);
 
+    const updateUserPassword = useCallback( async (password) => {
+        await updatePassword(user, password);
+    }, [user]);
+
     const reauthentication = useCallback( async (password) => {
         const credencials = EmailAuthProvider.credential(user.email, password);
         return await reauthenticateWithCredential(user, credencials);
@@ -33,6 +37,7 @@ export const useFirebaseProfile = (firebaseApp) => {
         updateUserAvatar,
         updateUserName,
         updateUserEmail,
+        updateUserPassword,
         reauthentication,
         sendEmailForVerification,
     }

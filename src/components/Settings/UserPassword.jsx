@@ -1,11 +1,13 @@
 import React, { useState } from 'react'
 import { Input, Button, Form, Icon } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updatePasswordUser } from '../../actions/personalActions'
 import { useForm } from '../../Hooks/useForm'
 import { ChangeViewModal } from '../../actions/uiActions'
 import { toast } from 'react-toastify'
 import { validatePassword } from '../../utils/Validations'
+import { useFirebaseProfile } from '../../Hooks/useFirebaseProfile'
+import { alertError } from '../../utils/alert-errors'
+import firebaseApp from '../../utils/Firebase';
 
 export const UserPassword = ({ setTitleModal, setContentModal }) => {
 
@@ -25,7 +27,7 @@ export const UserPassword = ({ setTitleModal, setContentModal }) => {
 
     return (
     <div className='user-password'>
-        <h2>*******</h2>
+        <h2>********</h2>
     
         <Button circular onClick={onEdit}>
             Actualizar
@@ -39,7 +41,8 @@ export const UserPassword = ({ setTitleModal, setContentModal }) => {
 
 const ChangePassword = ({ user }) => {
     
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
+    const { updateUserPassword, reauthentication } = useFirebaseProfile(firebaseApp);
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
@@ -68,7 +71,13 @@ const ChangePassword = ({ user }) => {
       }
 
       setIsLoading(true);
-      await dispatch( updatePasswordUser(currentPassword, newPassword) );
+      try {
+        await reauthentication( currentPassword );
+        await updateUserPassword( newPassword );
+        toast.success("Successfully password updated")
+      } catch (error) {
+        alertError(error?.code)
+      }
       setIsLoading(false);
     }
     
