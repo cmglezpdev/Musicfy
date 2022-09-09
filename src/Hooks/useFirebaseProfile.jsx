@@ -1,21 +1,35 @@
 import { useState, useCallback } from "react"
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
-import { updateProfile } from "firebase/auth";
+import { EmailAuthProvider, getAuth, reauthenticateWithCredential, sendEmailVerification, updateEmail, updateProfile } from "firebase/auth";
 import { useFirebaseStorage } from "./useFirebaseStorage";
 
 export const useFirebaseProfile = (firebaseApp) => {
     
-    const [database, ] = useState(getFirestore(firebaseApp));
-    const [storage,  ] = useState(getStorage(firebaseApp));
+    const [user, ] = useState( getAuth(firebaseApp).currentUser );
     const { getUrlFile } = useFirebaseStorage(firebaseApp);
 
-    const updateAvatar = useCallback( async (addressAvatar, user) => {
+    const updateUserAvatar = useCallback( async (addressAvatar, user) => {
         const url = await getUrlFile(addressAvatar);
         await updateProfile(user, {photoURL: url});
     }, [getUrlFile])
 
+    const updateUserEmail = useCallback( async (email) => {
+        await updateEmail(user, email);
+    }, [user]);
+
+    const reauthentication = useCallback( async (password) => {
+        const credencials = EmailAuthProvider.credential(user.email, password);
+        return await reauthenticateWithCredential(user, credencials);
+    }, [user]);
+
+    const sendEmailForVerification = useCallback( async () => {
+        await sendEmailVerification(user);
+    }, [user]);
+
+
     return {
-        updateAvatar
+        updateUserAvatar,
+        updateUserEmail,
+        reauthentication,
+        sendEmailForVerification,
     }
 }

@@ -3,8 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { Button, Form, Icon, Input,  } from 'semantic-ui-react'
 import { useForm } from '../../Hooks/useForm';
-import { updateEmailUser } from '../../actions/personalActions';
 import { ChangeViewModal } from '../../actions/uiActions'
+import { useFirebaseProfile } from '../../Hooks/useFirebaseProfile';
+import firebaseApp from '../../utils/Firebase';
+import { LogoutInFirebase } from '../../actions/authActions';
+import { alertError } from '../../utils/alert-errors';
 
 export const UserEmail = ({ setTitleModal, setContentModal }) => {
    
@@ -32,6 +35,7 @@ export const UserEmail = ({ setTitleModal, setContentModal }) => {
 const ChangeEmailForm = ({ email }) => {
 
     const dispatch = useDispatch();
+    const { reauthentication, updateUserEmail, sendEmailForVerification } = useFirebaseProfile(firebaseApp);
     const [showPassword, setShowPassword] = useState(false);
     const[ inputForm, handleInputChange ] = useForm({ email, password: '' })
     const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +49,16 @@ const ChangeEmailForm = ({ email }) => {
         }
         
         setIsLoading(true);
-        await dispatch( updateEmailUser({ email:inputForm.email, password: inputForm.password }) )
+        try {
+            await reauthentication( inputForm.password );
+            await updateUserEmail(email);
+            toast.success('Email Actualizado Correctamente');
+            sendEmailForVerification(); // Send Email for Verification
+            toast.success("Se ha enviado el email de verificación");
+            dispatch( LogoutInFirebase() ) // Logout for the login again
+        } catch (error) {
+            alertError(error?.code);
+        }
         setIsLoading(false);
     }
 

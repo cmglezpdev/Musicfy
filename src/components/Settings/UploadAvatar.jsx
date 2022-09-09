@@ -14,7 +14,7 @@ import { useFirebaseProfile } from '../../Hooks/useFirebaseProfile';
 export const UploadAvatar = () => {
     
     const { uploadFile } = useFirebaseStorage(firebaseApp);
-    const { updateAvatar } = useFirebaseProfile(firebaseApp);
+    const { updateUserAvatar } = useFirebaseProfile(firebaseApp);
     const {currentUser: user} = useSelector(state => state.auth);
     const [avatarUrl, setAvatarUrl] = useState(user.photoURL);
     const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export const UploadAvatar = () => {
         
         try {
             await uploadFile(`avatar/${user.uid}`, file);
-            await updateAvatar(`avatar/${user.uid}`, user);
+            await updateUserAvatar(`avatar/${user.uid}`, user);
             dispatch( ReloadApp() );
             toast.success('Avatar actualizado correntamente');
         } catch (error) {
