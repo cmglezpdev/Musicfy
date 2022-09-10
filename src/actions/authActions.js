@@ -1,8 +1,8 @@
-import firebaseApp from '../utils/Firebase';
-import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
-import { types } from '../types';
 import { toast } from 'react-toastify';
-import { alertError } from '../utils/alert-errors';
+import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
+import { firebaseApp, alertError } from '../utils';
+import { types } from '../types';
+import { resetUIStore } from './uiActions';
 
 
 export const loginInFirebase = ({ email, password }) => {
@@ -83,12 +83,12 @@ export const changeUserName = (username) => {
     }
 }
 
-
 export const LogoutInFirebase = () => {
     return async ( dispatch ) => {
         const auth = getAuth(firebaseApp);
         await signOut(auth);
         dispatch( resetAuthStore() );
+        dispatch( resetUIStore() );
     }
 }
 

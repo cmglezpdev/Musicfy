@@ -1,23 +1,24 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { Button, Form, Icon, Input,  } from 'semantic-ui-react'
-import { useForm } from '../../Hooks/useForm';
-import { updateEmailUser } from '../../actions/personalActions';
-import { ChangeViewModal } from '../../actions/uiActions'
+import { toast } from 'react-toastify';
+import { useForm, useFirebaseProfile } from '../../Hooks';
+import { openModal, setModal } from '../../actions/uiActions'
+import { LogoutInFirebase } from '../../actions/authActions';
+import { firebaseApp, alertError } from '../../utils';
 
-export const UserEmail = ({ setTitleModal, setContentModal }) => {
+export const UserEmail = () => {
    
     const dispatch = useDispatch();
     const { currentUser : user } = useSelector(state => state.auth);
     
     const onEdit = (e) => {
-        setTitleModal( "Actualizar Email" );
-        setContentModal( 
-            <ChangeEmailForm email={user.email} />
-        )
+        dispatch(setModal({
+            titleModal: "Update Email",
+            contentModal: <ChangeEmailForm />
+        }))
 
-        dispatch( ChangeViewModal(true) );
+        dispatch( openModal() );
     }
    
     return (
@@ -29,9 +30,11 @@ export const UserEmail = ({ setTitleModal, setContentModal }) => {
 }
 
 
-const ChangeEmailForm = ({ email }) => {
+const ChangeEmailForm = () => {
 
     const dispatch = useDispatch();
+    const { email } = useSelector(state => state.auth.currentUser);
+    const { reauthentication, updateUserEmail, sendEmailForVerification } = useFirebaseProfile(firebaseApp);
     const [showPassword, setShowPassword] = useState(false);
     const[ inputForm, handleInputChange ] = useForm({ email, password: '' })
     const [isLoading, setIsLoading] = useState(false);
@@ -45,7 +48,16 @@ const ChangeEmailForm = ({ email }) => {
         }
         
         setIsLoading(true);
-        await dispatch( updateEmailUser({ email:inputForm.email, password: inputForm.password }) )
+        try {
+            await reauthentication( inputForm.password );
+            await updateUserEmail(email);
+            toast.success('Email Actualizado Correctamente');
+            sendEmailForVerification(); // Send Email for Verification
+            toast.success("Se ha enviado el email de verificación");
+            dispatch( LogoutInFirebase() ) // Logout for the login again
+        } catch (error) {
+            alertError(error?.code);
+        }
         setIsLoading(false);
     }
 

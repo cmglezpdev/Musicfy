@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon, Image } from 'semantic-ui-react'
 import { Link, useNavigate } from 'react-router-dom'
-import userImage from '../../assets/png/user.png';
 import { LogoutInFirebase } from '../../actions/authActions';
+import userImage from '../../assets/png/user.png';
 import './TopBar.scss';
 
 export const TopBar = () => {

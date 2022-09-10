@@ -1,24 +1,24 @@
 import React, { useState } from 'react'
 import { Input, Button, Form } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateNameUser } from '../../actions/personalActions'
-import { useForm } from '../../Hooks/useForm'
-import { ChangeViewModal } from '../../actions/uiActions'
+import { toast } from 'react-toastify'
+import { useForm, useFirebaseProfile } from '../../Hooks'
+import { setModal, ReloadApp, openModal, closeModal } from '../../actions/uiActions'
+import { firebaseApp } from '../../utils';
 
-export const UserName = ({ setTitleModal, setContentModal }) => {
+export const UserName = () => {
 
     const dispatch = useDispatch();
     const { currentUser: user } = useSelector(state => state.auth);
+    
+    const onEdit = () => {
 
-    const onEdit = (e) => {
-        setTitleModal( "Actualizar Nombre" );
-        setContentModal( 
-            <ChangeDisplayName 
-                user = { user }
-            /> 
-        )
+        dispatch( setModal({
+            titleModal: "Update Name",
+            contentModal: <ChangeDisplayName /> 
+        }) );
 
-        dispatch( ChangeViewModal(true) )
+        dispatch(openModal())
     }
 
     return (
@@ -35,20 +35,31 @@ export const UserName = ({ setTitleModal, setContentModal }) => {
 
 
 
-const ChangeDisplayName = ({ user }) => {
+const ChangeDisplayName = () => {
     
     const dispatch = useDispatch();
+    const { displayName:name } = useSelector(state => state.auth.currentUser);
+    const { updateUserName } = useFirebaseProfile(firebaseApp);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, handleInputChange] = useForm({
-        displayName: user.displayName,
+        displayName: name,
     })
 
     const onSubmit = async () => {    
-        if( !formData.displayName || formData.displayName === user.displayName ) {
-            dispatch( ChangeViewModal(false) );
+        if( !formData.displayName || formData.displayName === name ) {
+            dispatch( closeModal() );
         } else {
+
             setIsLoading( true );
-            await dispatch( updateNameUser(user, formData.displayName) );
+            try {
+                await updateUserName(formData.displayName);
+                toast.success( "Nombre de usuario actualizado correctamente!" );
+                dispatch( closeModal() );
+                dispatch( ReloadApp() );
+                
+            } catch (error) {
+                toast.error( "Error al actualizar el nombre de usuario!" );   
+            }
             setIsLoading( false );
         }
     }
@@ -58,7 +69,7 @@ const ChangeDisplayName = ({ user }) => {
         <Form onSubmit = { onSubmit }>
             <Form.Field>
                 <Input 
-                    defaultValue={user.displayName}
+                    defaultValue={name}
                     name="displayName"
                     onChange={ handleInputChange }
                 />

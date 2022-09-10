@@ -1,0 +1,14 @@
+export { AddArtistForm } from './Artists/AddArtistForm';
+export { AuthOptions } from './Auth/AuthOptions/AuthOptions';
+export { LoginForm } from './Auth/LoginForm/LoginForm';
+export { RegisterFrom } from './Auth/RegisterForm/RegisterForm';
+export { BannerHome } from './BannerHome/BannerHome';
+export { MenuLeft } from './MenuLeft/MenuLeft'
+export { BasicModal } from './Modal/BasicModal/BasicModal';
+export { UploadAvatar } from './Settings'
+export { UserEmail } from './Settings'
+export { UserName } from './Settings'
+export { UserPassword } from './Settings'
+export { BasicSliderItems } from './Sliders';
+export { TopBar } from './TopBar/TopBar';
+export { BannerArtist } from './Artists/BannerArtist';

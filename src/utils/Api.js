@@ -1,6 +1,5 @@
-import firebaseApp from './Firebase';
+import { firebaseApp } from './Firebase';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
-import { EmailAuthProvider, getAuth, reauthenticateWithCredential } from 'firebase/auth';
 const db = getFirestore(firebaseApp);
 
 export async function isUserAdmin(uid) {
@@ -14,13 +13,4 @@ export async function isUserAdmin(uid) {
     });
 
     return response;
-}
-
-
-export const reauthentication = (password) => {
-    const auth = getAuth(firebaseApp);
-    const user = auth.currentUser;
-
-    const credencials = EmailAuthProvider.credential(user.email, password);
-    return reauthenticateWithCredential(user, credencials);
 }
