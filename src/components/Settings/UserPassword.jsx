@@ -1,25 +1,23 @@
 import React, { useState } from 'react'
 import { Input, Button, Form, Icon } from 'semantic-ui-react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
-import { ChangeViewModal } from '../../actions/uiActions'
 import { validatePassword, alertError, firebaseApp } from '../../utils'
 import { useForm, useFirebaseProfile } from '../../Hooks'
+import { openModal, setModal } from '../../actions/uiActions'
 
-export const UserPassword = ({ setTitleModal, setContentModal }) => {
+export const UserPassword = () => {
 
     const dispatch = useDispatch();
-    const { currentUser: user } = useSelector(state => state.auth);
 
     const onEdit = (e) => {
-        setTitleModal( "Actualizar Nombre" );
-        setContentModal( 
-            <ChangePassword 
-                user = { user }
-            /> 
-        )
 
-        dispatch( ChangeViewModal(true) )
+        dispatch(setModal({
+          titleModal: "Update Password",
+          contentModal: <ChangePassword /> 
+        }));
+
+        dispatch( openModal() )
     }
 
     return (
@@ -36,9 +34,8 @@ export const UserPassword = ({ setTitleModal, setContentModal }) => {
 
 
 
-const ChangePassword = ({ user }) => {
+const ChangePassword = () => {
     
-    // const dispatch = useDispatch();
     const { updateUserPassword, reauthentication } = useFirebaseProfile(firebaseApp);
     const [isLoading, setIsLoading] = useState(false);
     const [showPassword1, setShowPassword1] = useState(false);

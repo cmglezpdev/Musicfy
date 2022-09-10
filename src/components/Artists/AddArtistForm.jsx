@@ -4,7 +4,7 @@ import { Form, Input, Image, Button } from 'semantic-ui-react'
 import { useDropzone } from 'react-dropzone'
 import { toast } from 'react-toastify';
 import { v4 as uuidv4 } from 'uuid';
-import { ChangeViewModal } from '../../actions/uiActions';
+import { closeModal } from '../../actions/uiActions';
 import { useForm, useFirebaseStorage, useFirebaseFirestore } from '../../Hooks';
 
 import NoImage from '../../assets/png/no-image.png';
@@ -61,7 +61,7 @@ export const AddArtistForm = () => {
             toast.error("Error in save the artist!");
         }
 
-        dispatch( ChangeViewModal(false) );
+        dispatch( closeModal() );
     
         reset();
         setIsLoading(false);

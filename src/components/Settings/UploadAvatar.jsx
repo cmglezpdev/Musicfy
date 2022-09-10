@@ -29,8 +29,7 @@ export const UploadAvatar = () => {
             toast.error("Error al actualizar el avatar");
         }
         
-        // eslint-disable-next-line
-    }, [])
+    }, [dispatch, updateUserAvatar, uploadFile, user])
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         accept: "image/jpeg, image/png",

@@ -1,11 +1,13 @@
 import { types } from "../types";
 
-
 const INITIAL_STATE = {
     stateReload: false,
-    viewModal: false,
+    modal: {
+        viewModal: false,
+        titleModal: "",
+        contentModal: null,
+    },
 }
-
 
 export const uiReducer = ( state = INITIAL_STATE, action ) => {
 
@@ -16,14 +18,44 @@ export const uiReducer = ( state = INITIAL_STATE, action ) => {
                 stateReload: !state.stateReload
             } 
 
-        case types.uiChangeViewModal:
+        case types.uiOpenModal:
             return {
                 ...state,
-                viewModal: action.payload
-            }            
+                modal: {
+                    ...state.modal,
+                    viewModal: true,
+                }
+            }
+        
+            case types.uiCloseModal:
+                return {
+                    ...state,
+                    modal: {
+                        ...state.modal,
+                        titleModal: "",
+                        contentModal: null,
+                        viewModal: false,
+                    }
+                }
 
-        case types.uiResetStore:
+        case types.uiSetContentModal:
             return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    titleModal: action.payload.titleModal,
+                    contentModal: action.payload.contentModal,
+                }
+            }
+
+        case types.uiResetModalStore:
+            return {
+                ...state,
+                modal: {
+                    ...state.modal,
+                    titleModal: "",
+                    contentModal: null,
+                }    
             }
 
         default:

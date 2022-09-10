@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom'
 import { AddArtistForm, BasicModal } from '../';
-import { ChangeViewModal } from '../../actions/uiActions';
+import { closeModal, openModal, setModal } from '../../actions/uiActions';
 import { isUserAdmin } from '../../utils';
 import './MenuLeft.scss';
 
@@ -29,19 +29,23 @@ export const MenuLeft = () => {
   const handleModal = ( type ) => {
     switch(type) {
       case "artist":
-        setTitleModal("Nuevo artista");
-        setContentModal(<AddArtistForm />);
-        dispatch( ChangeViewModal(true) )
+        dispatch(setModal({
+          titleModal: "New Artist",
+          contentModal: <AddArtistForm />
+        }))
+        dispatch( openModal() )
         break;
+
       case "song":
-        setTitleModal("Nueva canción");
-        setContentModal(<h2>Formulario nueva cancion</h2>);
-        dispatch( ChangeViewModal(true) )
+        dispatch(setModal({
+          titleModal: "New Song",
+          contentModal: <h2>Formulario nueva cancion</h2>
+        }))
+        dispatch( openModal() )
         break;
+
       default:
-       setTitleModal(null);
-       setContentModal(null);
-       dispatch( ChangeViewModal(false) )
+       dispatch( closeModal() )
     }
   }
 
@@ -75,9 +79,7 @@ export const MenuLeft = () => {
           
       </Menu>
 
-      <BasicModal title={titleModal}>
-        {contentModal}
-      </BasicModal>
+      <BasicModal />
     </>
   )
 }

@@ -3,22 +3,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button, Form, Icon, Input,  } from 'semantic-ui-react'
 import { toast } from 'react-toastify';
 import { useForm, useFirebaseProfile } from '../../Hooks';
-import { ChangeViewModal } from '../../actions/uiActions'
+import { openModal, setModal } from '../../actions/uiActions'
 import { LogoutInFirebase } from '../../actions/authActions';
 import { firebaseApp, alertError } from '../../utils';
 
-export const UserEmail = ({ setTitleModal, setContentModal }) => {
+export const UserEmail = () => {
    
     const dispatch = useDispatch();
     const { currentUser : user } = useSelector(state => state.auth);
     
     const onEdit = (e) => {
-        setTitleModal( "Actualizar Email" );
-        setContentModal( 
-            <ChangeEmailForm email={user.email} />
-        )
+        dispatch(setModal({
+            titleModal: "Update Email",
+            contentModal: <ChangeEmailForm />
+        }))
 
-        dispatch( ChangeViewModal(true) );
+        dispatch( openModal() );
     }
    
     return (
@@ -30,9 +30,10 @@ export const UserEmail = ({ setTitleModal, setContentModal }) => {
 }
 
 
-const ChangeEmailForm = ({ email }) => {
+const ChangeEmailForm = () => {
 
     const dispatch = useDispatch();
+    const { email } = useSelector(state => state.auth.currentUser);
     const { reauthentication, updateUserEmail, sendEmailForVerification } = useFirebaseProfile(firebaseApp);
     const [showPassword, setShowPassword] = useState(false);
     const[ inputForm, handleInputChange ] = useForm({ email, password: '' })
