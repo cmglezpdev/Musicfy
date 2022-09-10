@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { ToastContainer } from 'react-toastify';
-import { Auth } from "./pages/Auth/Auth";
-import { LoggedLayout } from './layouts/Logged/LoggedLayout';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import { Auth } from "./pages";
+import { LoggedLayout } from './layouts';
 import { LogoutInFirebase, setUserInSotre } from './actions/authActions';
-import { useEffect } from 'react';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const App = () => {
 

@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import { AuthOptions } from '../../components/Auth/AuthOptions/AuthOptions';
-import { LoginForm } from '../../components/Auth/LoginForm/LoginForm';
-import { RegisterFrom } from '../../components/Auth/RegisterForm/RegisterForm';
-
+import { AuthOptions, LoginForm, RegisterFrom } from '../../components';
 import backgroundAuth from '../../assets/jpg/background-auth.jpg'
 import logoNameWhite from '../../assets/png/logo-name-white.png'
 

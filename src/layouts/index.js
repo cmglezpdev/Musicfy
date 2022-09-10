@@ -1,0 +1,1 @@
+export { LoggedLayout } from './Logged/LoggedLayout';

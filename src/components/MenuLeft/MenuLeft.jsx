@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { Menu, Icon } from 'semantic-ui-react'
+import { Menu, Icon } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom'
-import { BasicModal } from '../Modal/BasicModal/BasicModal';
-import { isUserAdmin } from '../../utils/Api';
+import { AddArtistForm, BasicModal } from '../';
+import { closeModal, openModal, setModal } from '../../actions/uiActions';
+import { isUserAdmin } from '../../utils';
 import './MenuLeft.scss';
-import { ChangeViewModal } from '../../actions/uiActions';
 
-const MenuLeft = () => {
+export const MenuLeft = () => {
 
   const { currentUser : user } = useSelector(state => state.auth);
   const dispatch = useDispatch();
@@ -29,19 +29,23 @@ const MenuLeft = () => {
   const handleModal = ( type ) => {
     switch(type) {
       case "artist":
-        setTitleModal("Nuevo artista");
-        setContentModal(<h2>Formulario nuevo artista</h2>);
-        dispatch( ChangeViewModal(true) )
+        dispatch(setModal({
+          titleModal: "New Artist",
+          contentModal: <AddArtistForm />
+        }))
+        dispatch( openModal() )
         break;
+
       case "song":
-        setTitleModal("Nueva cancion");
-        setContentModal(<h2>Formulario nueva cancion</h2>);
-        dispatch( ChangeViewModal(true) )
+        dispatch(setModal({
+          titleModal: "New Song",
+          contentModal: <h2>Formulario nueva cancion</h2>
+        }))
+        dispatch( openModal() )
         break;
+
       default:
-       setTitleModal(null);
-       setContentModal(null);
-       dispatch( ChangeViewModal(false) )
+       dispatch( closeModal() )
     }
   }
 
@@ -75,11 +79,7 @@ const MenuLeft = () => {
           
       </Menu>
 
-      <BasicModal title={titleModal}>
-        {contentModal}
-      </BasicModal>
+      <BasicModal />
     </>
   )
 }
-
-export default MenuLeft;

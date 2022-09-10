@@ -1,11 +1,6 @@
 import React from 'react'
-
 import { Route, Routes } from 'react-router-dom'
-
-// Pages
-import { Home } from '../pages/Home/Home'
-import { Artists } from '../pages/Artists/Artists'
-import { Settings } from '../pages/Settings/Settings'
+import { Home, Artists, Artist, Settings } from '../pages'
 
 
 export const ContentRoutes = () => {
@@ -14,7 +9,8 @@ export const ContentRoutes = () => {
         <Routes>
             <Route path="/" exact element={<Home />} />
             <Route path="/artists" element={<Artists /> } />
-            <Route path="/settings" exact element={<Settings />} />
+            <Route path="/artist/:id" element={<Artist /> } />
+            <Route path ="/settings" exact element={<Settings />} />
         </Routes>
     )
 }

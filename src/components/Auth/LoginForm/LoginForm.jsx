@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button, Icon, Form, Input } from 'semantic-ui-react';
 
-import { useForm } from '../../../Hooks/useForm';
-import { validateEmail, validatePassword } from '../../../utils/Validations';
+import { useForm } from '../../../Hooks';
+import { validateEmail, validatePassword } from '../../../utils';
 import { loginInFirebase, resendEmailForVerification, resetAuthStore } from '../../../actions/authActions';
 import './LoginForm.scss';
 
