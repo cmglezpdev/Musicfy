@@ -2,6 +2,7 @@ import { toast } from 'react-toastify';
 import { createUserWithEmailAndPassword, getAuth, sendEmailVerification, signInWithEmailAndPassword, signOut, updateProfile } from 'firebase/auth';
 import { firebaseApp, alertError } from '../utils';
 import { types } from '../types';
+import { resetUIStore } from './uiActions';
 
 
 export const loginInFirebase = ({ email, password }) => {
@@ -88,6 +89,7 @@ export const LogoutInFirebase = () => {
         const auth = getAuth(firebaseApp);
         await signOut(auth);
         dispatch( resetAuthStore() );
+        dispatch( resetUIStore() );
     }
 }
 

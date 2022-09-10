@@ -14,3 +14,7 @@ export const setModal = ( InfoModal ) => ({
 export const resetModal = () => ({
     type: types.uiResetModalStore
 })
+
+export const resetUIStore = () => ({
+    type: types.uiResetStore
+})

@@ -58,6 +58,9 @@ export const uiReducer = ( state = INITIAL_STATE, action ) => {
                 }    
             }
 
+        case types.uiResetStore:
+            return INITIAL_STATE;
+
         default:
             return state;
     }

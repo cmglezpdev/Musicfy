@@ -19,4 +19,5 @@ export const types = {
     uiResetModalStore: '[ui] Reset Modal Store',
     uiOpenModal: '[ui] Open Modal',
     uiCloseModal: '[ui] Close Modal',
+    uiResetStore: '[ui] Reset Store',
 }
