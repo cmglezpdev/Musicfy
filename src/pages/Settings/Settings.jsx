@@ -19,6 +19,3 @@ export const Settings = () => {
     </div>
   )
 }
-
-
-// TODO: error cuando da click en crear una artista se abren otros sliders

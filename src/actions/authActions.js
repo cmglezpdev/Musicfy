@@ -83,7 +83,6 @@ export const changeUserName = (username) => {
     }
 }
 
-// TODO: resetear todo el store del redux
 export const LogoutInFirebase = () => {
     return async ( dispatch ) => {
         const auth = getAuth(firebaseApp);

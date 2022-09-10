@@ -134,5 +134,3 @@ const ChangePassword = () => {
 
     )
 }
-
-// TODO: crear componente de Input Password para refactorizar

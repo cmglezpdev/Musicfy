@@ -1,6 +1,5 @@
 import { toast } from 'react-toastify';
 
-// TODO: usar los mensajes que vienen por defecto de firebase
 export const alertError = ( type ) => {
 
   switch( type ) {
