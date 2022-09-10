@@ -11,3 +11,4 @@ export { UserName } from './Settings'
 export { UserPassword } from './Settings'
 export { BasicSliderItems } from './Sliders';
 export { TopBar } from './TopBar/TopBar';
+export { BannerArtist } from './Artists/BannerArtist';
