@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Form, Input, Button, Dropdown, Image } from 'semantic-ui-react';
 import { useDropzone } from 'react-dropzone';
+import { useFirebaseFirestore } from '../../Hooks';
+import { firebaseApp } from '../../utils';
 
 import NoImage from '../../assets/png/no-image.png';
 import './addAlbumForm.scss';
@@ -8,7 +10,25 @@ import './addAlbumForm.scss';
 export const AddAlbumForm = () => {
     
     const [albumImage, setAlbumImage] = useState(null);
+    const [artistsOptions, setArtistsOptions] = useState([]);
     const [file, setFile] = useState(null);
+    const { getCollectionList } = useFirebaseFirestore(firebaseApp);
+
+    useEffect(() => {
+        getCollectionList("artists")
+            .then(arts => {
+                let arr = [];
+                arts.forEach(artist => {
+                    arr.push({
+                        key: artist.id,
+                        value: artist.id,
+                        text: artist.name
+                    })
+                })
+                setArtistsOptions(arr);
+            })
+    }, [getCollectionList])
+
 
     const onDrop = useCallback(acceptedFile => {
         const file = acceptedFile[0];
@@ -42,7 +62,15 @@ export const AddAlbumForm = () => {
 
                 <Form.Field className="album-inputs" width={11}>
                     <Input placeholder="Album name" />
-                    <Dropdown placeholder='The album pertense...' search />
+                    
+                    <Dropdown 
+                        placeholder='The album pertense...' 
+                        search 
+                        fluid
+                        selection
+                        lazyLoad
+                        options={artistsOptions}
+                    />
                 </Form.Field>
             </Form.Group>
             <Button type='submit'>
