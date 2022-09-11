@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom'
-import { AddArtistForm, BasicModal } from '../';
+import { AddArtistForm, AddAlbumForm ,BasicModal } from '../';
 import { closeModal, openModal, setModal } from '../../actions/uiActions';
 import { isUserAdmin } from '../../utils';
 import './MenuLeft.scss';
@@ -15,8 +15,6 @@ export const MenuLeft = () => {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
   const [userAdmin, setUserAdmin] = useState(false);
-  const [titleModal, setTitleModal] = useState("");
-  const [contentModal, setContentModal] = useState(null);
   
   useEffect(() => {
     setActiveMenu( location.pathname );
@@ -34,6 +32,14 @@ export const MenuLeft = () => {
           contentModal: <AddArtistForm />
         }))
         dispatch( openModal() )
+        break;
+      
+      case "album":
+        dispatch(setModal({
+          titleModal: "New Album",
+          contentModal: <AddAlbumForm />
+        }))
+        dispatch(openModal());
         break;
 
       case "song":
@@ -69,10 +75,13 @@ export const MenuLeft = () => {
         { userAdmin && (
           <div className="footer">
             <Menu.Item onClick={() => handleModal("artist")}>
-              <Icon name='plus square outline' /> Nuevo Artista
+              <Icon name='plus square outline' /> New Artist
+            </Menu.Item>
+            <Menu.Item onClick={() => handleModal("album")}>
+              <Icon name='plus square outline' /> New Album
             </Menu.Item>
             <Menu.Item onClick={() => handleModal("song")}>
-              <Icon name='plus square outline' /> Nueva Cancion
+              <Icon name='plus square outline' /> New Song
             </Menu.Item>
           </div>
         )}
