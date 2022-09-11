@@ -73,7 +73,7 @@ export const AddAlbumForm = () => {
                 artist: formData.artist,
                 banner: fileName
             })
-            toast.success("Successfully album created!");
+            toast.success("Album created successfully!");
             resetForm();
         } catch (error) {
             toast.error("Error to create the album!");            
@@ -111,7 +111,7 @@ export const AddAlbumForm = () => {
                     />
                     
                     <Dropdown 
-                        placeholder='The album pertense...' 
+                        placeholder='The album belongs to...' 
                         search 
                         fluid
                         selection
