@@ -35,7 +35,7 @@
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "postinstall": "semantic-ui-css-patch",
     "co": "sui-mono commit",
-    "check": "sui-mono check",
+    "ck": "sui-mono check",
     "rl": "sui-mono release"
   },
   "eslintConfig": {

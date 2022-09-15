@@ -8,6 +8,7 @@ import './Home.scss';
 export const Home = () => {
 
   const [artists, setArtists] = useState([]);
+  const [albums, setAlbums] = useState([]);
   const { getCollectionList } = useFirebaseFirestore(firebaseApp);
 
   useEffect(() => {
@@ -16,6 +17,14 @@ export const Home = () => {
       setArtists(arrayArtist)
     });
   }, [getCollectionList])
+
+  useEffect(() => {
+    getCollectionList("albums")
+    .then(arrayAlbums => {
+      setAlbums(arrayAlbums);
+    })
+  }, [getCollectionList]);
+
 
   return (
     <>
@@ -26,6 +35,12 @@ export const Home = () => {
           data={artists}
           folderData="artists"
           urlName="artist"
+        />
+        <BasicSliderItems 
+          title="Last Albums"
+          data={albums}
+          folderData="albums"
+          urlName="album"
         />
       </div>
     </>
