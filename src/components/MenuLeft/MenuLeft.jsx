@@ -66,12 +66,18 @@ export const MenuLeft = () => {
       <Menu className='menu-left' vertical>
         <div className="top">
           <Menu.Item as={Link} to="/" name="home" active={activeMenu === '/'} onClick={handleMenu}>
-            <Icon name='home' /> Inicio
+            <Icon name='home' /> Home
           </Menu.Item>
           <Menu.Item as={Link} to="/artists" name="artists" active={activeMenu === '/artists'} onClick={handleMenu}>
-            <Icon name='music' /> Artistas
+            <Icon name='music' /> Artists
+          </Menu.Item>
+          <Menu.Item as={Link} to="/albums" name="albums" active={activeMenu === '/albums'} onClick={handleMenu}>
+            <Icon name='window maximize outline' /> Albums
           </Menu.Item>
         </div>
+
+
+
         { userAdmin && (
           <div className="footer">
             <Menu.Item onClick={() => handleModal("artist")}>
