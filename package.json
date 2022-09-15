@@ -33,7 +33,10 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "postinstall": "semantic-ui-css-patch"
+    "postinstall": "semantic-ui-css-patch",
+    "co": "sui-mono commit",
+    "check": "sui-mono check",
+    "rl": "sui-mono release"
   },
   "eslintConfig": {
     "extends": [
@@ -54,6 +57,7 @@
     ]
   },
   "devDependencies": {
+    "@s-ui/mono": "^2.31.0",
     "@semantic-ui-react/css-patch": "^1.0.0",
     "concurrently": "^7.2.0",
     "electron": "^18.2.4",
