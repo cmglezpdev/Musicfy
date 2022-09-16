@@ -1,4 +1,4 @@
-import { addDoc, collection, getDocs, getFirestore } from "firebase/firestore";
+import { addDoc, collection, getDocs, getFirestore, query, where } from "firebase/firestore";
 import { useCallback, useState } from "react";
 
 export const useFirebaseFirestore = (firebaseApp) => {
@@ -19,13 +19,20 @@ export const useFirebaseFirestore = (firebaseApp) => {
         return arr;
       }, [db])
 
-    const getDocument = useCallback(
-      async ( addressCollection, idDoc ) => {
-        const coll = await getCollectionList(addressCollection);
-        const doc = coll.find(doc => doc.id === idDoc);
-        return doc;
+    const getDocsByCondition = useCallback(
+      async ( addressCollection, field, condition, value ) => {
+        const arr = [];
+        const q = query(collection(db, addressCollection), where(field, condition, value))
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach(doc => {
+          arr.push({
+            ...doc.data(),
+            id: doc.id
+          })
+        });
+        return arr;
       }
-    , [getCollectionList])
+    , [db])
 
 
     const setDocument = useCallback(
@@ -36,6 +43,6 @@ export const useFirebaseFirestore = (firebaseApp) => {
     return {
         getCollectionList,
         setDocument,
-        getDocument
+        getDocsByCondition
     }
 }
