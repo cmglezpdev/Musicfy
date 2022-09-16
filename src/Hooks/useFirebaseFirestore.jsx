@@ -19,13 +19,23 @@ export const useFirebaseFirestore = (firebaseApp) => {
         return arr;
       }, [db])
 
-      const setDocument = useCallback(
-        async ( addressCollection, data ) => {
-          await addDoc( collection(db, addressCollection), data);
-        }, [db])
+    const getDocument = useCallback(
+      async ( addressCollection, idDoc ) => {
+        const coll = await getCollectionList(addressCollection);
+        const doc = coll.find(doc => doc.id === idDoc);
+        return doc;
+      }
+    , [getCollectionList])
+
+
+    const setDocument = useCallback(
+      async ( addressCollection, data ) => {
+        await addDoc( collection(db, addressCollection), data);
+      }, [db])
 
     return {
         getCollectionList,
         setDocument,
+        getDocument
     }
 }
