@@ -9,7 +9,7 @@ import './album.scss';
 export const Album = () => {
   
   const params = useParams();
-  const { getCollectionList, getDocument } = useFirebaseFirestore(firebaseApp);
+  const { getCollectionList, getDocById } = useFirebaseFirestore(firebaseApp);
   const { getUrlFile } = useFirebaseStorage(firebaseApp);
   const [album, setAlbum] = useState(null);
   const [banner, setBanner] = useState(null);
@@ -33,10 +33,10 @@ export const Album = () => {
 
   useEffect(() => {
     if( album?.artist ) {
-        getDocument("artists", album.artist)
+      getDocById("artists", album.artist)
         .then(art => setArtist(art))
     }
-  }, [album, getDocument])
+  }, [album, getDocById])
 
   if( !album || !artist ) {
     return <Loader active>Loading...</Loader>
