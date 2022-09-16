@@ -12,7 +12,6 @@ The application is development yet.
   - [Links](#links)
 - [My process](#my-process)
   - [Built with](#built-with)
-  - [Continued development](#continued-development)
 - [Author](#author)
 
 ## Overview
@@ -37,12 +36,7 @@ The application is development yet.
 - [Semantic UI Library](https://react.semantic-ui.com/) - React Library
 - [Toastify](https://fkhadra.github.io/react-toastify/introduction) - React Library
 - [Sass](https://sass-lang.com/documentation/) - Stylesheet language 
-- [Firebase](https://firebase.google.com/) - Google Plataform 
-
-### Continued development
-
-1. When playing a song, show the lyrics of a API, or upload it by own user.
-2. Can play music of your computers when the app is offline( it will not has auth )
+- [Firebase](https://firebase.google.com/) - Google Platform 
 
 ## Author
 
