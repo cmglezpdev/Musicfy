@@ -16,11 +16,20 @@
     }
 }
 
-.ui.grid>.row>.column {
-    padding-left: 0  !important;
-    padding-right: 0 !important;
-}
+.ui.grid.logged-layout {
+    
+    >.row {
+        >.column {
+            padding-right: 0 !important;
+        }
+    }
+    
+    >.wide.column {
+        padding-top: 0 !important;
+        padding-bottom: 5px !important;
+    }
 
+}
 .content {
     overflow-y: scroll;
     height: calc(100vh - 104px);
