@@ -14,3 +14,4 @@ export { TopBar } from './TopBar/TopBar';
 export { BannerArtist } from './Artists/BannerArtist';
 export { AddAlbumForm } from './Albums/AddAlbumForm';
 export { ListCollection } from './ListCollection/ListCollection';
+export { Player } from './Player/Player';

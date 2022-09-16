@@ -2,7 +2,7 @@ import React from 'react'
 import { BrowserRouter } from 'react-router-dom';
 import { Grid } from 'semantic-ui-react'
 import { ContentRoutes } from '../../routes';
-import { MenuLeft, TopBar } from '../../components';
+import { MenuLeft, TopBar, Player } from '../../components';
 
 import './LoggedLayout.scss';
 
@@ -22,7 +22,7 @@ export const LoggedLayout = () => {
         </Grid.Row>
 
         <Grid.Column width={16}>
-          <h2>Player</h2>
+          <Player />
         </Grid.Column>
       </Grid>
     </BrowserRouter>
