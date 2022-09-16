@@ -1,33 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import ReactPlayer from 'react-player'
 import { Grid, Progress, Icon, Input, Image } from 'semantic-ui-react';
 
 import './player.scss';
 
-const songData = {
-    image: "https://firebasestorage.googleapis.com/v0/b/musicfy-51048.appspot.com/o/albums%2F67c8f9f7-1baa-4569-9801-b9d507991fa1?alt=media&token=309a023d-4bd9-4a34-a3b7-9a23fb645662",
-    name: "Efecto vocales",
-}
 
-export const Player = () => {
-    
-    const { image, name } = songData;
+export const Player = ({ songData }) => {
 
     const [playing, setPlaying] = useState(false);
-    const [playerSeconds, setPlayerSeconds] = useState(245);
-    const [totalSeconds, setTotalSeconds] = useState(500);
+    const [playedSeconds, setPlayedSeconds] = useState(0);
+    const [totalSeconds, setTotalSeconds] = useState(0);
     const [volume, setVolume] = useState(.3);
+
+    useEffect(() => {
+        if( songData?.url ) onStart();
+    }, [songData?.url])
+
 
     const onStart = () => setPlaying(true);
     const onPause = () => setPlaying(false);
-    const onVolume = (e, data) => setVolume(data.value);
+    const onVolume = (e, data) => setVolume(Number(data.value));
+    const onProgress = (data) => {
+        const { playedSeconds, loadedSeconds } = data;
+        setPlayedSeconds(playedSeconds);
+        setTotalSeconds(loadedSeconds)
+    }
 
     return (
         <div className="player">
             <Grid>
                 <Grid.Column width={4} className="left">
-                    <Image src={image}/>
-                    { name }
+                    <Image src={songData?.image}/>
+                    { songData?.name }
                 </Grid.Column>
                 
                 <Grid.Column width={8} className="center">
@@ -40,7 +44,7 @@ export const Player = () => {
                     </div>
                     <Progress 
                         progress="value"
-                        value={playerSeconds}
+                        value={playedSeconds}
                         total={totalSeconds}
                         size="tiny"
                     />
@@ -58,6 +62,15 @@ export const Player = () => {
                     />
                 </Grid.Column>
             </Grid>
+
+            <ReactPlayer 
+                className="react-player"
+                url={songData?.url}
+                playing={playing}
+                height="0" width="0"
+                volume={volume}
+                onProgress={onProgress}
+            />
         </div>
     )
 }
