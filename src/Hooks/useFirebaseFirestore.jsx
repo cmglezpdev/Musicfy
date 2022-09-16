@@ -34,6 +34,13 @@ export const useFirebaseFirestore = (firebaseApp) => {
       }
     , [db])
 
+    const getDocById = useCallback(
+      async ( addressCollection, docId ) => {
+        const docs = await getCollectionList(addressCollection);
+        const doc = docs.find(doc => doc.id === docId);
+        return doc;
+      }, [getCollectionList])
+
 
     const setDocument = useCallback(
       async ( addressCollection, data ) => {
@@ -43,6 +50,7 @@ export const useFirebaseFirestore = (firebaseApp) => {
     return {
         getCollectionList,
         setDocument,
-        getDocsByCondition
+        getDocsByCondition,
+        getDocById
     }
 }
