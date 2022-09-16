@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useFirebaseStorage } from "../../Hooks";
 import { firebaseApp } from "../../utils";
- 
-// TODO: agregar en el scss el gradiente del fondo
+
 import './bannerArtist.scss';
 
 export const BannerArtist = React.memo(({ artist }) => {

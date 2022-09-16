@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom'
-import { AddArtistForm, BasicModal } from '../';
+import { AddArtistForm, AddAlbumForm ,BasicModal } from '../';
 import { closeModal, openModal, setModal } from '../../actions/uiActions';
 import { isUserAdmin } from '../../utils';
 import './MenuLeft.scss';
@@ -15,8 +15,6 @@ export const MenuLeft = () => {
   const location = useLocation();
   const [activeMenu, setActiveMenu] = useState(location.pathname);
   const [userAdmin, setUserAdmin] = useState(false);
-  const [titleModal, setTitleModal] = useState("");
-  const [contentModal, setContentModal] = useState(null);
   
   useEffect(() => {
     setActiveMenu( location.pathname );
@@ -34,6 +32,14 @@ export const MenuLeft = () => {
           contentModal: <AddArtistForm />
         }))
         dispatch( openModal() )
+        break;
+      
+      case "album":
+        dispatch(setModal({
+          titleModal: "New Album",
+          contentModal: <AddAlbumForm />
+        }))
+        dispatch(openModal());
         break;
 
       case "song":
@@ -60,19 +66,28 @@ export const MenuLeft = () => {
       <Menu className='menu-left' vertical>
         <div className="top">
           <Menu.Item as={Link} to="/" name="home" active={activeMenu === '/'} onClick={handleMenu}>
-            <Icon name='home' /> Inicio
+            <Icon name='home' /> Home
           </Menu.Item>
           <Menu.Item as={Link} to="/artists" name="artists" active={activeMenu === '/artists'} onClick={handleMenu}>
-            <Icon name='music' /> Artistas
+            <Icon name='music' /> Artists
+          </Menu.Item>
+          <Menu.Item as={Link} to="/albums" name="albums" active={activeMenu === '/albums'} onClick={handleMenu}>
+            <Icon name='window maximize outline' /> Albums
           </Menu.Item>
         </div>
+
+
+
         { userAdmin && (
           <div className="footer">
             <Menu.Item onClick={() => handleModal("artist")}>
-              <Icon name='plus square outline' /> Nuevo Artista
+              <Icon name='plus square outline' /> New Artist
+            </Menu.Item>
+            <Menu.Item onClick={() => handleModal("album")}>
+              <Icon name='plus square outline' /> New Album
             </Menu.Item>
             <Menu.Item onClick={() => handleModal("song")}>
-              <Icon name='plus square outline' /> Nueva Cancion
+              <Icon name='plus square outline' /> New Song
             </Menu.Item>
           </div>
         )}

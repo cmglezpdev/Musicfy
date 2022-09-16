@@ -12,3 +12,5 @@ export { UserPassword } from './Settings'
 export { BasicSliderItems } from './Sliders';
 export { TopBar } from './TopBar/TopBar';
 export { BannerArtist } from './Artists/BannerArtist';
+export { AddAlbumForm } from './Albums/AddAlbumForm';
+export { ListCollection } from './ListCollection/ListCollection';

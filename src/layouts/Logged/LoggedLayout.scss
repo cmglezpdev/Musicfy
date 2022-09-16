@@ -20,3 +20,8 @@
     padding-left: 0  !important;
     padding-right: 0 !important;
 }
+
+.content {
+    overflow-y: scroll;
+    height: calc(100vh - 104px);
+}

@@ -1,0 +1,33 @@
+@import '../../scss/colors';
+
+.album {
+    margin: 50px;
+
+    &__header {
+        display: flex;
+
+        .image {
+            width: 200px;
+            height: 200px;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+        }
+
+        .info {
+            margin-left: 20px;
+
+            h1 {
+                font-size: 50px;
+            }
+
+            p {
+                font-size: 20px;
+            }
+        }
+    }
+
+    &__songs {
+        margin-top: 40px;
+    }
+}

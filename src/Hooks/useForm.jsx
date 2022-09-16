@@ -15,9 +15,17 @@ export const useForm = ( initialState = {} ) => {
         })
     }
 
+    const handleUpdateField = (field, value) => {
+        setValues({
+            ...values,
+            [field]: value
+        })
+    }
+
     return [
         values,
         handleInputChange,
-        reset
+        reset,
+        handleUpdateField
     ]
 }
