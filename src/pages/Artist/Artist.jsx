@@ -14,8 +14,6 @@ export const Artist = () => {
   const [artist, setArtist] = useState(null);
   const [albums, setAlbums] = useState([]);
   
-  console.log(albums);
-
   useEffect(() => {
     getCollectionList("artists")
       .then(coll => {

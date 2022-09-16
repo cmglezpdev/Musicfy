@@ -1,4 +1,3 @@
-// import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Slider from 'react-slick';
@@ -6,15 +5,13 @@ import { useFirebaseStorage } from '../../../Hooks';
 import { firebaseApp } from '../../../utils';
 
 import './basicSliderItems.scss'
-// TODO: Arreglar la pila de renders que se hacen innecesariamente. Las fotos salen repetidas dos veces
-// el map con los items se reccore solo una vez pero RenderItem se renderiza muchas veces mas
 
 export const BasicSliderItems = ({ title, data, folderData, urlName }) => {
 
     const settings = {
         dots: false,
         infinite: true,
-        slidesToShow: 4,
+        slidesToShow: (data.length < 4 ? data.length : 4),
         slidesToScroll: 1,
         centerMode: true,
         className: "basic-slider-items__list"
@@ -25,8 +22,7 @@ export const BasicSliderItems = ({ title, data, folderData, urlName }) => {
             <h2>{title}</h2>
             <Slider {...settings}>
                 {
-                    data.map((item, index) => {
-                        console.log(index, " => ", item); 
+                    data.map((item) => {
                         return (
                         <RenderItem 
                             key={item.id}
@@ -51,8 +47,6 @@ const RenderItem = ({ item, folderData, urlName }) => {
         getUrlFile(`${folderData}/${item.banner}`)
             .then(url => setImageURL(url))
     }, [folderData, getUrlFile, item.banner]);
-
-    console.log('repetition');
 
     return (
         <Link to={`/${urlName}/${item.id}`}>
