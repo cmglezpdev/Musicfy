@@ -15,3 +15,4 @@ export { BannerArtist } from './Artists/BannerArtist';
 export { AddAlbumForm } from './Albums/AddAlbumForm';
 export { ListCollection } from './ListCollection/ListCollection';
 export { Player } from './Player/Player';
+export { AddSongForm } from './Songs/AddSongForm';

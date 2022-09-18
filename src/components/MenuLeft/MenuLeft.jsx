@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Menu, Icon } from 'semantic-ui-react';
 import { Link, useLocation } from 'react-router-dom'
-import { AddArtistForm, AddAlbumForm ,BasicModal } from '../';
+import { AddArtistForm, AddAlbumForm ,BasicModal, AddSongForm } from '../';
 import { closeModal, openModal, setModal } from '../../actions/uiActions';
 import { isUserAdmin } from '../../utils';
 import './MenuLeft.scss';
@@ -45,7 +45,7 @@ export const MenuLeft = () => {
       case "song":
         dispatch(setModal({
           titleModal: "New Song",
-          contentModal: <h2>Formulario nueva cancion</h2>
+          contentModal: <AddSongForm />
         }))
         dispatch( openModal() )
         break;
