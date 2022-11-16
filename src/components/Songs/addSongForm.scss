@@ -1,5 +1,46 @@
 @import '../../scss/colors';
 
-.add-song-from {
+.ui.form.add-song-form {
+    .song-upload {
+        height: 100px;
+        width: 100%;
+        background-color: $background-gray-light;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        &:hover {
+            cursor: pointer;
+        }
 
+        input {
+            display: none;
+        }
+
+        i {
+            height: 100%;
+            font-size: 40px;
+            display: flex;
+            align-items: center;
+
+            &.load {
+                color: $primary-color;
+            }
+        }
+
+        > div {
+            margin-left: 20px;
+            
+            p {
+                margin: 0;
+                &:first-of-type {
+                    margin-bottom: 5px;
+                }
+
+                span {
+                    color: $primary-color;
+                }
+            }
+        }
+    }
 }
